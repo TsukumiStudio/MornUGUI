@@ -25,7 +25,7 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [SerializeField] private MornUGUIButtonToggleModule _toggleModule;
-        [Inject] private MornUGUICtrl _uguiCtrl; 
+        [Inject] private MornUGUICtrl _uguiCtrl;
         public MornUGUICtrl UGUICtrl => _uguiCtrl;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
@@ -33,7 +33,7 @@ namespace MornUGUI
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
         public MornUGUIButtonToggleModule AsToggle => _toggleModule;
         public MornUGUIButtonActiveModule AsActive => _activeModule;
-        
+
         private IEnumerable<MornUGUIButtonModuleBase> GetModules()
         {
             yield return _activeModule;
@@ -54,6 +54,11 @@ namespace MornUGUI
         private void Awake()
         {
             Execute((module, parent) => module.Awake(parent));
+        }
+
+        private void Reset()
+        {
+            _button = GetComponent<Button>();
         }
 
         private void Update()
