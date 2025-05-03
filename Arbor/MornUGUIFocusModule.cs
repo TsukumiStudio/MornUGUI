@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -17,7 +18,8 @@ namespace MornUGUI
         [SerializeField] private Selectable _autoFocusTarget;
         [SerializeField] [ReadOnly] private Selectable _focusCache;
         private PlayerInput _cachedInput;
-        private string _cachedScheme;
+        private bool _isPointing;
+        private Vector2 _cachedPointingPos;
 
         public override void OnStateBegin(MornUGUIControlState parent)
         {
@@ -42,26 +44,27 @@ namespace MornUGUI
             }
 
             _cachedInput = all[0];
-            if (_autoFocusTarget != null && EventSystem.current.currentSelectedGameObject == _autoFocusTarget.gameObject)
+            if (_autoFocusTarget != null
+                && EventSystem.current.currentSelectedGameObject == _autoFocusTarget.gameObject)
             {
                 return;
             }
 
-            // 現在のPlayerInputを取得
-            var currentScheme = _cachedInput.currentControlScheme;
-            _cachedScheme = currentScheme;
-            if (currentScheme.Length > 0 && currentScheme != "Mouse")
+            // 初回の自動フォーカス
+            AutoFocus();
+        }
+
+        private void AutoFocus()
+        {
+            if (_useCache && _focusCache != null)
             {
-                if (_useCache && _focusCache != null)
-                {
-                    EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
-                    MornUGUIGlobal.Log("Focus on cache.");
-                }
-                else
-                {
-                    EventSystem.current.SetSelectedGameObject(_autoFocusTarget.gameObject);
-                    MornUGUIGlobal.Log("Focus on target.");
-                }
+                EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
+                MornUGUIGlobal.Log("Focus on cache.");
+            }
+            else
+            {
+                EventSystem.current.SetSelectedGameObject(_autoFocusTarget.gameObject);
+                MornUGUIGlobal.Log("Focus on target.");
             }
         }
 
@@ -72,32 +75,35 @@ namespace MornUGUI
                 return;
             }
 
-            var nextScheme = _cachedInput.currentControlScheme;
-            if (nextScheme != _cachedScheme)
+            // Navigate入力があった際にキャッシュを選択
+            if (EventSystem.current.currentSelectedGameObject == null)
             {
-                if (nextScheme == "Mouse")
+                if (_cachedInput.actions["Navigate"].controls.Any(x => x.IsPressed()))
                 {
-                    // マウスに変化する場合はフォーカスを外す
-                    EventSystem.current.SetSelectedGameObject(null);
-                    MornUGUIGlobal.Log("Focus off by mouse.");
+                    AutoFocus();
+                    _isPointing = false;
                 }
-                else if (_cachedScheme == "Mouse")
-                {
-                    // マウスからそれ以外へ変化する場合はフォーカスを設定
-                    // そのキー入力がボタンに反応してしまうため、1F待機する
-                    var focus = _focusCache != null ? _focusCache : _autoFocusTarget;
-                    DelayAsync(
-                        () =>
-                        {
-                            EventSystem.current.SetSelectedGameObject(focus.gameObject);
-                            MornUGUIGlobal.Log("Auto Focus on target by mouse.");
-                        },
-                        parent.destroyCancellationToken).Forget();
-                }
-
-                _cachedScheme = nextScheme;
             }
 
+            if (_cachedInput.actions["Point"].WasPerformedThisFrame())
+            {
+                var newPoint = _cachedInput.actions["Point"].ReadValue<Vector2>();
+                if (_isPointing)
+                {
+                    _cachedPointingPos = newPoint;
+                }
+                else
+                {
+                    if (Vector2.Distance(_cachedPointingPos, newPoint) > 0.1f)
+                    {
+                        EventSystem.current.SetSelectedGameObject(null);
+                        _isPointing = true;
+                        _cachedPointingPos = newPoint;
+                    }
+                }
+            }
+
+            // キャッシュの更新処理
             var currentSelected = EventSystem.current.currentSelectedGameObject;
             var current = currentSelected == null ? null : currentSelected.GetComponent<Selectable>();
             if (current != null && _useCache)
@@ -105,9 +111,9 @@ namespace MornUGUI
                 _focusCache = current;
             }
 
+            // キャッシュが非アクティブな場合、隣接を探す
             if (_focusCache != null && !_focusCache.gameObject.activeInHierarchy && _useCache)
             {
-                // キャッシュの隣接を探す
                 var selectable = _focusCache.GetComponent<Selectable>();
                 if (selectable != null)
                 {
