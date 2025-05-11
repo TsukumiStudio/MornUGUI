@@ -38,7 +38,12 @@ namespace MornUGUI
             var buttons = parent.CanvasGroup.transform.GetComponentsInChildren<Button>().ToList();
             foreach (var button in buttons)
             {
-                if (_buttonStateLinkSets.All(x => x.Button != button))
+                var index = _buttonStateLinkSets.FindIndex(x => x.Button == button);
+                if (index != -1)
+                {
+                    _buttonStateLinkSets[index].StateLink.name = button.name;
+                }
+                else
                 {
                     _buttonStateLinkSets.Add(
                         new ButtonStateLinkSet
