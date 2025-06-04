@@ -43,9 +43,8 @@ namespace MornUGUI
 
         internal static void SetDirty(Object obj)
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(obj);
-#endif
+            I.SetDirtyInternal();
         }
+
     }
 }
