@@ -1,9 +1,11 @@
+using System;
 using MornSound;
 using UnityEngine;
 
 namespace MornUGUI
 {
-    public class MornUGUICtrl : MonoBehaviour
+    [Serializable]
+    public class MornUGUICtrl
     {
         [SerializeField] private AudioSource _seSource;
         public bool IsBlocking { get; private set; }
