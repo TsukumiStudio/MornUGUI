@@ -1,5 +1,4 @@
-﻿using MornEnum;
-using MornGlobal;
+﻿using MornGlobal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +9,7 @@ namespace MornUGUI
     {
         protected override string ModuleName => nameof(MornUGUI);
         [Header("Input")]
+        [SerializeField] private InputActionReference _submit;
         [SerializeField] private InputActionReference _cancel;
         [Header("Audio")]
         [SerializeField] private AudioClip _buttonCursorClip;
@@ -19,6 +19,7 @@ namespace MornUGUI
         [SerializeField] private int _soundBlockFrame = 3;
         [Header("Materials")]
         [SerializeField] private string[] _materialNames;
+        public InputAction InputSubmit => _submit.action;
         public InputAction InputCancel => _cancel.action;
         public AudioClip ButtonCursorClip => _buttonCursorClip;
         public AudioClip ButtonSubmitClip => _buttonSubmitClip;
@@ -43,9 +44,7 @@ namespace MornUGUI
 
         internal static void SetDirty(Object obj)
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorUtility.SetDirty(obj);
-#endif
+            I.SetDirtyInternal(obj);
         }
     }
 }
