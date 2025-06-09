@@ -8,7 +8,6 @@ namespace MornUGUI
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;
-        
         public GameObject Focused => _focused;
         public GameObject Unfocused => _unfocused;
 
@@ -23,6 +22,11 @@ namespace MornUGUI
             {
                 _unfocused?.SetActive(true);
             }
+        }
+
+        public override void OnDisable(MornUGUIButton parent)
+        {
+            OnDeselect(parent);
         }
 
         public override void OnDeselect(MornUGUIButton parent)

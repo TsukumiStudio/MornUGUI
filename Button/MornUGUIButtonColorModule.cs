@@ -20,6 +20,11 @@ namespace MornUGUI
         {
             Update(parent);
         }
+        
+        public override void OnDisable(MornUGUIButton parent)
+        {
+            OnDeselect(parent);
+        }
 
         public override void Update(MornUGUIButton parent)
         {

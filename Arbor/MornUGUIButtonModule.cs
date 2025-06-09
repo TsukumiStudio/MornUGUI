@@ -4,6 +4,7 @@ using System.Linq;
 using Arbor;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,7 +26,7 @@ namespace MornUGUI
         {
             foreach (var buttonStateLinkSet in _buttonStateLinkSets)
             {
-                buttonStateLinkSet.Button.OnClickAsObservable().Subscribe(
+                buttonStateLinkSet.Button.OnSubmitAsObservable().Subscribe(
                     _ =>
                     {
                         parent.Transition(buttonStateLinkSet.StateLink);

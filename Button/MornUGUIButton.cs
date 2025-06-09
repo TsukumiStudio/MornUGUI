@@ -20,6 +20,7 @@ namespace MornUGUI
     {
         [SerializeField] private Button _button;
         [SerializeField] private bool _isNegative;
+        [SerializeField] private bool _allowAsFocusCached = true;
         [SerializeField] private MornUGUIButtonActiveModule _activeModule;
         [SerializeField] private MornUGUIButtonColorModule _colorModule;
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
@@ -29,6 +30,7 @@ namespace MornUGUI
         public MornUGUICtrl UGUICtrl => _uguiCtrl;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
+        public bool AllowAsFocusCached => _allowAsFocusCached;
         public IObservable<Unit>　OnButtonSelected => _button.OnSelectAsObservable().Select(_ => Unit.Default);
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
         public MornUGUIButtonToggleModule AsToggle => _toggleModule;
@@ -54,6 +56,21 @@ namespace MornUGUI
         private void Awake()
         {
             Execute((module, parent) => module.Awake(parent));
+        }
+
+        private void OnDisable()
+        {
+            if (EventSystem.current == null)
+            {
+                return;
+            }
+            
+            if (EventSystem.current.currentSelectedGameObject == gameObject)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+            }
+            
+            Execute((module, parent) => module.OnDisable(parent));
         }
 
         private void Reset()

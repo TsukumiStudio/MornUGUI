@@ -15,6 +15,7 @@ namespace MornUGUI
     {
         [SerializeField] private bool _ignored;
         [SerializeField] private bool _useCache = true;
+        [SerializeField] private bool _findAdjacent = true;
         [SerializeField] private Selectable _autoFocusTarget;
         [SerializeField] [ReadOnly] private Selectable _focusCache;
         private PlayerInput _cachedInput;
@@ -56,12 +57,12 @@ namespace MornUGUI
 
         private void AutoFocus()
         {
-            if (_useCache && _focusCache != null)
+            if (_useCache && _focusCache != null && _focusCache.gameObject.activeInHierarchy)
             {
                 EventSystem.current.SetSelectedGameObject(_focusCache.gameObject);
                 MornUGUIGlobal.Log("Focus on cache.");
             }
-            else
+            else if (_autoFocusTarget != null && _autoFocusTarget.gameObject.activeInHierarchy)
             {
                 EventSystem.current.SetSelectedGameObject(_autoFocusTarget.gameObject);
                 MornUGUIGlobal.Log("Focus on target.");
@@ -103,16 +104,21 @@ namespace MornUGUI
                 }
             }
 
+            if (!_useCache)
+            {
+                return;
+            }
+
             // キャッシュの更新処理
             var currentSelected = EventSystem.current.currentSelectedGameObject;
             var current = currentSelected == null ? null : currentSelected.GetComponent<Selectable>();
-            if (current != null && _useCache)
+            if (current != null && IsFocusable(current))
             {
                 _focusCache = current;
             }
 
             // キャッシュが非アクティブな場合、隣接を探す
-            if (_focusCache != null && !_focusCache.gameObject.activeInHierarchy && _useCache)
+            if (_findAdjacent && _focusCache != null && !_focusCache.gameObject.activeInHierarchy)
             {
                 var selectable = _focusCache.GetComponent<Selectable>();
                 if (selectable != null)
@@ -131,7 +137,7 @@ namespace MornUGUI
                         if (near != null && near.gameObject.activeInHierarchy)
                         {
                             var distance = Vector3.Distance(near.transform.position, _focusCache.transform.position);
-                            if (distance < mostNearDistance)
+                            if (distance < mostNearDistance && IsFocusable(near))
                             {
                                 mostNearDistance = distance;
                                 mostNear = near;
@@ -147,6 +153,16 @@ namespace MornUGUI
                     }
                 }
             }
+        }
+
+        private bool IsFocusable(Selectable selectable)
+        {
+            if (selectable.TryGetComponent<MornUGUIButton>(out var button))
+            {
+                return button.AllowAsFocusCached;
+            }
+
+            return true;
         }
 
         private async UniTaskVoid DelayAsync(Action action, CancellationToken cancellationToken)

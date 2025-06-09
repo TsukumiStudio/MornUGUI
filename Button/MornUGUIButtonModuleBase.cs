@@ -8,7 +8,11 @@ namespace MornUGUI
         public virtual void Awake(MornUGUIButton parent)
         {
         }
-
+        
+        public virtual void OnDisable(MornUGUIButton parent)
+        {
+        }
+        
         public virtual void Update(MornUGUIButton parent)
         {
         }

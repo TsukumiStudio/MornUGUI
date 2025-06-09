@@ -9,6 +9,11 @@ namespace MornUGUI
     {
         [SerializeField] [ReadOnly] private bool _isExist;
 
+        public override void OnDisable(MornUGUIButton parent)
+        {
+            _isExist = false;
+        }
+
         public override void Update(MornUGUIButton parent)
         {
             if (_isExist && EventSystem.current.currentSelectedGameObject != parent.gameObject)
