@@ -1,13 +1,16 @@
 using System;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MornUGUI
 {
     [Serializable]
     internal sealed class MornUGUIScrollbarActiveModule : MornUGUIScrollbarModuleBase
     {
-        [SerializeField] private GameObject _upperArrow;
-        [SerializeField] private GameObject _bottomArrow;
+        [SerializeField] private Selectable _upperArrow;
+        [SerializeField] private Selectable _bottomArrow;
 
         public override void OnEnable(MornUGUIScrollbar parent)
         {
@@ -18,17 +21,27 @@ namespace MornUGUI
         {
             if (_upperArrow != null)
             {
-                _upperArrow.SetActive(false);
+                _upperArrow.gameObject.SetActive(false);
             }
 
             if (_bottomArrow != null)
             {
-                _bottomArrow.SetActive(false);
+                _bottomArrow.gameObject.SetActive(false);
             }
         }
 
         public override void Awake(MornUGUIScrollbar parent)
         {
+            if (_upperArrow != null)
+            {
+                _upperArrow.OnSubmitAsObservable().Subscribe(_ => parent.ToUp()).AddTo(parent);
+            }
+
+            if (_bottomArrow != null)
+            {
+                _bottomArrow.OnSubmitAsObservable().Subscribe(_ => parent.ToBottom()).AddTo(parent);
+            }
+
             UpdateArrow(parent);
         }
 
@@ -40,16 +53,16 @@ namespace MornUGUI
         private void UpdateArrow(MornUGUIScrollbar parent)
         {
             var canMove = parent.Size < 1;
-            var canUpper = canMove && !Mathf.Approximately(parent.Value, 1);
-            var canBottom = canMove && !Mathf.Approximately(parent.Value, 0);
+            var canUpper = canMove && !(Mathf.Abs(parent.Value - 1) < 0.001f);
+            var canBottom = canMove && !(Mathf.Abs(parent.Value) < 0.001f);
             if (_upperArrow != null)
             {
-                _upperArrow.SetActive(canUpper);
+                _upperArrow.gameObject.SetActive(canUpper);
             }
 
             if (_bottomArrow != null)
             {
-                _bottomArrow.SetActive(canBottom);
+                _bottomArrow.gameObject.SetActive(canBottom);
             }
         }
     }
