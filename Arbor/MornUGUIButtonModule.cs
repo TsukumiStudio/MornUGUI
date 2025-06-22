@@ -26,12 +26,21 @@ namespace MornUGUI
         {
             foreach (var buttonStateLinkSet in _buttonStateLinkSets)
             {
-                buttonStateLinkSet.Button.OnSubmitAsObservable().Subscribe(
-                    _ =>
-                    {
-                        parent.Transition(buttonStateLinkSet.StateLink);
-                    }).AddTo(parent.CancellationTokenOnEnd);
+                var linkSet = buttonStateLinkSet;
+                linkSet.Button.OnSubmitAsObservable().Subscribe(
+                    _ => OnButtonPressed(parent, linkSet.StateLink).Forget()).AddTo(parent.CancellationTokenOnEnd);
             }
+        }
+
+        private async UniTaskVoid OnButtonPressed(MornUGUIControlState parent, StateLink stateLink)
+        {
+            var animationModule = parent.AnimationModule;
+            if (animationModule != null && animationModule.HasOutAnimation)
+            {
+                await animationModule.PlayOutAnimationAsync(parent.destroyCancellationToken);
+            }
+
+            parent.Transition(stateLink);
         }
 
         public override void OnEditorInitialize(MornUGUIControlState parent)

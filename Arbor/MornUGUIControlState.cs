@@ -12,6 +12,7 @@ namespace MornUGUI
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private MornUGUICanvasInteractableModule _canvasInteractableModule;
         [SerializeField] private MornUGUICanvasFadeModule _canvasFadeModule;
+        [SerializeField] private MornUGUIAnimationModule _animationModule;
         [SerializeField] private MornUGUIButtonModule _buttonModule;
         [SerializeField] private MornUGUIFocusModule _focusModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
@@ -19,6 +20,7 @@ namespace MornUGUI
         [Inject] private MornUGUICtrl _mornUGUICtrl;
         public MornUGUICtrl UGUICtrl => _mornUGUICtrl;
         public CanvasGroup CanvasGroup => _canvasGroup;
+        public MornUGUIAnimationModule AnimationModule => _animationModule;
 
         private IEnumerable<MornUGUIModuleBase> GetModules()
         {
@@ -26,6 +28,7 @@ namespace MornUGUI
             yield return _soundBlockModule;
             yield return _canvasInteractableModule;
             yield return _canvasFadeModule;
+            yield return _animationModule;
             yield return _buttonModule;
             yield return _focusModule;
             yield return _cancelModule;
