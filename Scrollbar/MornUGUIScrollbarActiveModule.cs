@@ -11,6 +11,8 @@ namespace MornUGUI
     {
         [SerializeField] private Selectable _upperArrow;
         [SerializeField] private Selectable _bottomArrow;
+        [SerializeField] private Selectable _leftArrow;
+        [SerializeField] private Selectable _rightArrow;
 
         public override void OnEnable(MornUGUIScrollbar parent)
         {
@@ -28,6 +30,16 @@ namespace MornUGUI
             {
                 _bottomArrow.gameObject.SetActive(false);
             }
+            
+            if (_leftArrow != null)
+            {
+                _leftArrow.gameObject.SetActive(false);
+            }
+
+            if (_rightArrow != null)
+            {
+                _rightArrow.gameObject.SetActive(false);
+            }
         }
 
         public override void Awake(MornUGUIScrollbar parent)
@@ -41,6 +53,16 @@ namespace MornUGUI
             {
                 _bottomArrow.OnSubmitAsObservable().Subscribe(_ => parent.ToBottom()).AddTo(parent);
             }
+            
+            if (_leftArrow != null)
+            {
+                _leftArrow.OnSubmitAsObservable().Subscribe(_ => parent.ToUp()).AddTo(parent);
+            }
+
+            if (_rightArrow != null)
+            {
+                _rightArrow.OnSubmitAsObservable().Subscribe(_ => parent.ToBottom()).AddTo(parent);
+            }
 
             UpdateArrow(parent);
         }
@@ -53,16 +75,63 @@ namespace MornUGUI
         private void UpdateArrow(MornUGUIScrollbar parent)
         {
             var canMove = parent.Size < 1;
-            var canUpper = canMove && !(Mathf.Abs(parent.Value - 1) < 0.001f);
-            var canBottom = canMove && !(Mathf.Abs(parent.Value) < 0.001f);
-            if (_upperArrow != null)
+            var isVertical = parent.Direction == Scrollbar.Direction.BottomToTop || parent.Direction == Scrollbar.Direction.TopToBottom;
+            var isHorizontal = parent.Direction == Scrollbar.Direction.LeftToRight || parent.Direction == Scrollbar.Direction.RightToLeft;
+            
+            // 垂直方向の矢印
+            if (isVertical)
             {
-                _upperArrow.gameObject.SetActive(canUpper);
-            }
+                var canUpper = canMove && !(Mathf.Abs(parent.Value - 1) < 0.001f);
+                var canBottom = canMove && !(Mathf.Abs(parent.Value) < 0.001f);
+                
+                if (_upperArrow != null)
+                {
+                    _upperArrow.gameObject.SetActive(canUpper);
+                }
 
-            if (_bottomArrow != null)
+                if (_bottomArrow != null)
+                {
+                    _bottomArrow.gameObject.SetActive(canBottom);
+                }
+                
+                // 水平方向の矢印は非表示
+                if (_leftArrow != null)
+                {
+                    _leftArrow.gameObject.SetActive(false);
+                }
+
+                if (_rightArrow != null)
+                {
+                    _rightArrow.gameObject.SetActive(false);
+                }
+            }
+            // 水平方向の矢印
+            else if (isHorizontal)
             {
-                _bottomArrow.gameObject.SetActive(canBottom);
+                var isLeftToRight = parent.Direction == Scrollbar.Direction.LeftToRight;
+                var canLeft = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 0 : 1)) < 0.001f);
+                var canRight = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 1 : 0)) < 0.001f);
+                
+                if (_leftArrow != null)
+                {
+                    _leftArrow.gameObject.SetActive(canLeft);
+                }
+
+                if (_rightArrow != null)
+                {
+                    _rightArrow.gameObject.SetActive(canRight);
+                }
+                
+                // 垂直方向の矢印は非表示
+                if (_upperArrow != null)
+                {
+                    _upperArrow.gameObject.SetActive(false);
+                }
+
+                if (_bottomArrow != null)
+                {
+                    _bottomArrow.gameObject.SetActive(false);
+                }
             }
         }
     }
