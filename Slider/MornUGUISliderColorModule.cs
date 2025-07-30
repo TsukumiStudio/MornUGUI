@@ -1,4 +1,5 @@
 using System;
+using MornEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,11 @@ namespace MornUGUI
     internal sealed class MornUGUISliderColorModule : MornUGUISliderModuleBase
     {
         [SerializeField] private Image _image;
-        [Header("interactable")]
-        [SerializeField] private Color _focusedColor = Color.white;
-        [SerializeField] private Color _unfocusedColor = Color.gray;
-        [Header("not interactable")]
-        [SerializeField] private Color _focusedColor2 = Color.white;
-        [SerializeField] private Color _unfocusedColor2 = Color.gray;
+        [SerializeField, Label("変更可_Focus"), ShowIf(nameof(HasImage))] private Color _focusedColor = Color.white;
+        [SerializeField, Label("変更可_UnFocus"),ShowIf(nameof(HasImage))] private Color _unfocusedColor = Color.gray;
+        [SerializeField, Label("変更不可_Focus"),ShowIf(nameof(HasImage))] private Color _focusedColor2 = Color.white;
+        [SerializeField, Label("変更不可_UnFocus"),ShowIf(nameof(HasImage))] private Color _unfocusedColor2 = Color.gray;
+        private bool HasImage => _image != null;
         private bool _cachedIsFocused;
 
         public override void Awake(MornUGUISlider parent)
