@@ -13,6 +13,8 @@ namespace MornUGUI
         [SerializeField] private Selectable _bottomArrow;
         [SerializeField] private Selectable _leftArrow;
         [SerializeField] private Selectable _rightArrow;
+        
+        private const float Threshold = 0.01f;
 
         public override void OnEnable(MornUGUIScrollbar parent)
         {
@@ -81,8 +83,8 @@ namespace MornUGUI
             // 垂直方向の矢印
             if (isVertical)
             {
-                var canUpper = canMove && !(Mathf.Abs(parent.Value - 1) < 0.001f);
-                var canBottom = canMove && !(Mathf.Abs(parent.Value) < 0.001f);
+                var canUpper = canMove && !(Mathf.Abs(parent.Value - 1) < Threshold);
+                var canBottom = canMove && !(Mathf.Abs(parent.Value) < Threshold);
                 
                 if (_upperArrow != null)
                 {
@@ -109,8 +111,8 @@ namespace MornUGUI
             else if (isHorizontal)
             {
                 var isLeftToRight = parent.Direction == Scrollbar.Direction.LeftToRight;
-                var canLeft = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 0 : 1)) < 0.001f);
-                var canRight = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 1 : 0)) < 0.001f);
+                var canLeft = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 0 : 1)) < Threshold);
+                var canRight = canMove && !(Mathf.Abs(parent.Value - (isLeftToRight ? 1 : 0)) < Threshold);
                 
                 if (_leftArrow != null)
                 {
