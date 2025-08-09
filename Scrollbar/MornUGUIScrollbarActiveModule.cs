@@ -71,7 +71,10 @@ namespace MornUGUI
 
         public override void OnValueChanged(MornUGUIScrollbar parent)
         {
-            UpdateArrow(parent);
+            // UIのリビルドループ中の場合は次フレームに遅延
+            Observable.NextFrame()
+                .Subscribe(_ => UpdateArrow(parent))
+                .AddTo(parent);
         }
 
         private void UpdateArrow(MornUGUIScrollbar parent)
