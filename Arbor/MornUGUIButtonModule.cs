@@ -27,6 +27,11 @@ namespace MornUGUI
             foreach (var buttonStateLinkSet in _buttonStateLinkSets)
             {
                 var linkSet = buttonStateLinkSet;
+                if (linkSet.StateLink == null || linkSet.StateLink.stateID == 0)
+                {
+                    continue;
+                }
+                
                 linkSet.Button.OnSubmitAsObservable().Subscribe(
                     _ => OnButtonPressed(parent, linkSet.StateLink).Forget()).AddTo(parent.CancellationTokenOnEnd);
             }
