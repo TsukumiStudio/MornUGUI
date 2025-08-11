@@ -79,7 +79,7 @@ namespace MornUGUI
 
         private void UpdateArrow(MornUGUIScrollbar parent)
         {
-            var canMove = parent.Size < 1;
+            var canMove = parent.Size < 1 && parent.gameObject.activeSelf;
             var isVertical = parent.Direction == Scrollbar.Direction.BottomToTop || parent.Direction == Scrollbar.Direction.TopToBottom;
             var isHorizontal = parent.Direction == Scrollbar.Direction.LeftToRight || parent.Direction == Scrollbar.Direction.RightToLeft;
             
