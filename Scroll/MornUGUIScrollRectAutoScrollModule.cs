@@ -15,7 +15,8 @@ namespace MornUGUI
         [SerializeField] private AnimationCurve _scrollCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
         private readonly Vector3[] _cornersCache = new Vector3[4];
         private IDisposable _scrollAnimation;
-        private Selectable _lastSelectedElement;
+        private Selectable _nextTarget;
+        private Selectable _lastScrollTo;
         private int _lastChildCount;
 
         public override void Awake(MornUGUIScrollRect parent)
@@ -30,8 +31,7 @@ namespace MornUGUI
             {
                 selectable.OnSelectAsObservable().Subscribe(_ => 
                 {
-                    _lastSelectedElement = selectable;
-                    ScrollToElement(parent, selectable);
+                    _nextTarget = selectable;
                 }).AddTo(parent);
             }
         }
@@ -48,12 +48,12 @@ namespace MornUGUI
             if (currentChildCount != _lastChildCount)
             {
                 _lastChildCount = currentChildCount;
-                
-                // 最後に選択された要素がまだアクティブであれば再計算
-                if (_lastSelectedElement != null && _lastSelectedElement.gameObject.activeInHierarchy)
-                {
-                    ScrollToElement(parent, _lastSelectedElement);
-                }
+                _lastScrollTo = null; // 子要素数が変わったら最後にスクロールした要素をリセット
+            }
+            
+            if (_nextTarget != null && _nextTarget.gameObject.activeInHierarchy && _nextTarget != _lastScrollTo)
+            {
+                ScrollToElement(parent, _nextTarget);
             }
         }
         
@@ -76,17 +76,17 @@ namespace MornUGUI
         public override void OnDestroy(MornUGUIScrollRect scrollRect)
         {
             _scrollAnimation?.Dispose();
-            _lastSelectedElement = null;
+            _nextTarget = null;
         }
 
-        private void ScrollToElement(MornUGUIScrollRect parent, Selectable selectable)
+        private void ScrollToElement(MornUGUIScrollRect parent, Selectable target)
         {
             if (!_isActive)
             {
                 return;
             }
 
-            var targetRect = selectable.GetComponent<RectTransform>();
+            var targetRect = target.GetComponent<RectTransform>();
             if (targetRect == null)
             {
                 return;
@@ -108,6 +108,7 @@ namespace MornUGUI
             {
                 ApplyScrollPosition(parent, targetPosition);
             }
+            _lastScrollTo = target;
         }
 
         private Rect GetBoundsInContentSpace(MornUGUIScrollRect parent, RectTransform rectTransform)
