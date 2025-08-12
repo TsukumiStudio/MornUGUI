@@ -180,6 +180,11 @@ namespace MornUGUI
                                               {
                                                   var position = Vector2.Lerp(startPosition, targetPosition, t);
                                                   ApplyScrollPosition(parent, position);
+                                              },
+                                              () =>
+                                              {
+                                                  var position = Vector2.Lerp(startPosition, targetPosition, 1);
+                                                  ApplyScrollPosition(parent, position);
                                               }).AddTo(parent);
         }
 
