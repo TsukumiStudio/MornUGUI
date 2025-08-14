@@ -1,3 +1,4 @@
+using MornEditor;
 using TMPro;
 using UnityEngine;
 
@@ -6,11 +7,21 @@ namespace MornUGUI
     [ExecuteAlways]
     public sealed class MornUGUITextSetter : MonoBehaviour
     {
-        [SerializeField, ReadOnly] public TMP_Text Text;
-        [SerializeField] public MornUGUITextSizeSettings SizeSettings;
-        [SerializeField] public MornUGUIFontSettings FontSettings;
-        [SerializeField] public MornUGUIMaterialType MaterialType;
-        
+        [SerializeField, ReadOnly] private TMP_Text _text;
+        [SerializeField, HideIf(nameof(HasInheritedSizeSettings))] private MornUGUITextSizeSettings _sizeSettings;
+        [ShowIf(nameof(HasInheritedSizeSettings))] public MornUGUITextSizeSettings InheritedSizeSettings;
+        [SerializeField, HideIf(nameof(HasInheritedFontSettings))] private MornUGUIFontSettings _fontSettings;
+        [ShowIf(nameof(HasInheritedSizeSettings))] public MornUGUIFontSettings InheritedFontSettings;
+        [SerializeField, HideIf(nameof(HasInheritedMaterialType))] private MornUGUIMaterialType _materialType;
+        [ShowIf(nameof(HasInheritedMaterialType))] public MornUGUIMaterialType InheritedMaterialType;
+        private bool HasInheritedSizeSettings => InheritedSizeSettings != null;
+        private bool HasInheritedFontSettings => InheritedFontSettings != null;
+        private bool HasInheritedMaterialType => InheritedMaterialType != null;
+        public TMP_FontAsset Font => _text.font;
+        private MornUGUITextSizeSettings SizeSettings => InheritedSizeSettings ?? _sizeSettings;
+        private MornUGUIFontSettings FontSettings => InheritedFontSettings ?? _fontSettings;
+        private MornUGUIMaterialType MaterialType => InheritedMaterialType ?? _materialType;
+
         private void OnEnable()
         {
             if (Application.isPlaying)
@@ -22,7 +33,7 @@ namespace MornUGUI
         [ContextMenu("Rebuild")]
         private void Reset()
         {
-            Text = GetComponent<TMP_Text>();
+            _text = GetComponent<TMP_Text>();
         }
 
         private void Update()
@@ -36,36 +47,47 @@ namespace MornUGUI
         public void Adjust()
         {
             var global = MornUGUIGlobal.I;
-            if (global == null || SizeSettings == null || FontSettings == null || MaterialType == null || Text == null)
+            if (global == null || _text == null)
             {
                 return;
             }
-            
-            var fontChanged = Text.font != FontSettings.Font;
-            var autoSizeChanged = Text.enableAutoSizing == false;
-            var maxFontSizeChanged = !Mathf.Approximately(Text.fontSizeMax, SizeSettings.FontSize);
-            var minFontSizeChanged = !Mathf.Approximately(Text.fontSizeMin, 0);
-            var characterSpacingChanged = !Mathf.Approximately(Text.characterSpacing, SizeSettings.CharacterSpacing);
-            var lineSpacingChanged = !Mathf.Approximately(Text.lineSpacing, SizeSettings.LineSpacing);
-            var materialChanged = Text.fontSharedMaterial != FontSettings.GetMaterial(MaterialType);
-            var anyChanged = fontChanged
-                             || autoSizeChanged
-                             || maxFontSizeChanged
-                             || minFontSizeChanged
-                             || characterSpacingChanged
-                             || lineSpacingChanged
-                             || materialChanged;
-            if (Text != null && anyChanged)
+
+            if (FontSettings != null && MaterialType != null)
             {
-                Text.font = FontSettings.Font;
-                Text.enableAutoSizing = true;
-                Text.fontSizeMax = SizeSettings.FontSize;
-                Text.fontSizeMin = 0;
-                Text.characterSpacing = SizeSettings.CharacterSpacing;
-                Text.lineSpacing = SizeSettings.LineSpacing;
-                Text.fontMaterial = FontSettings.GetMaterial(MaterialType);
-                MornUGUIGlobal.Log("Text Adjusted");
-                MornUGUIGlobal.SetDirty(Text);
+                var fontChanged = _text.font != FontSettings.Font;
+                var materialChanged = _text.fontSharedMaterial != FontSettings.GetMaterial(MaterialType);
+                if (fontChanged || materialChanged)
+                {
+                    _text.font = FontSettings.Font;
+                    _text.fontMaterial = FontSettings.GetMaterial(MaterialType);
+                    MornUGUIGlobal.Log("Font/Material Adjusted");
+                    MornUGUIGlobal.SetDirty(_text);
+                }
+            }
+
+            if (SizeSettings != null)
+            {
+                var autoSizeChanged = _text.enableAutoSizing == false;
+                var maxFontSizeChanged = !Mathf.Approximately(_text.fontSizeMax, SizeSettings.FontSize);
+                var minFontSizeChanged = !Mathf.Approximately(_text.fontSizeMin, 0);
+                var characterSpacingChanged = !Mathf.Approximately(
+                    _text.characterSpacing,
+                    SizeSettings.CharacterSpacing);
+                var lineSpacingChanged = !Mathf.Approximately(_text.lineSpacing, SizeSettings.LineSpacing);
+                if (autoSizeChanged
+                    || maxFontSizeChanged
+                    || minFontSizeChanged
+                    || characterSpacingChanged
+                    || lineSpacingChanged)
+                {
+                    _text.enableAutoSizing = true;
+                    _text.fontSizeMax = SizeSettings.FontSize;
+                    _text.fontSizeMin = 0;
+                    _text.characterSpacing = SizeSettings.CharacterSpacing;
+                    _text.lineSpacing = SizeSettings.LineSpacing;
+                    MornUGUIGlobal.Log("FontSize Adjusted");
+                    MornUGUIGlobal.SetDirty(_text);
+                }
             }
         }
     }
