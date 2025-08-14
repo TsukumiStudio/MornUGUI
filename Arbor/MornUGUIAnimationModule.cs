@@ -13,6 +13,7 @@ namespace MornUGUI
         [SerializeField] private bool _active;
         [SerializeField, ShowIf(nameof(Active))] private BindAnimatorClip _inAnimation;
         [SerializeField, ShowIf(nameof(Active))] private BindAnimatorClip _outAnimation;
+        private bool _isIn;
         private bool Active => _active;
         private CancellationTokenSource _cancellationTokenSource;
         public bool HasOutAnimation => _active && _outAnimation.IsValid;
@@ -29,25 +30,27 @@ namespace MornUGUI
 
         public async UniTask PlayInAnimationAsync(CancellationToken cancellationToken = default)
         {
-            if (!_active || !_inAnimation.IsValid)
+            if (!_active || !_inAnimation.IsValid || _isIn)
             {
                 return;
             }
 
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            _isIn = true;
             await PlayAnimation(_inAnimation, _cancellationTokenSource.Token);
         }
 
         public async UniTask PlayOutAnimationAsync(CancellationToken cancellationToken = default)
         {
-            if (!_active || !_outAnimation.IsValid)
+            if (!_active || !_outAnimation.IsValid || !_isIn)
             {
                 return;
             }
 
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            _isIn = false;
             await PlayAnimation(_outAnimation, _cancellationTokenSource.Token);
         }
 

@@ -71,12 +71,15 @@ namespace MornUGUI
 
         public override void OnValueChanged(MornUGUIScrollbar parent)
         {
-            UpdateArrow(parent);
+            // UIのリビルドループ中の場合は次フレームに遅延
+            Observable.NextFrame()
+                .Subscribe(_ => UpdateArrow(parent))
+                .AddTo(parent);
         }
 
         private void UpdateArrow(MornUGUIScrollbar parent)
         {
-            var canMove = parent.Size < 1;
+            var canMove = parent.Size < 1 && parent.gameObject.activeSelf;
             var isVertical = parent.Direction == Scrollbar.Direction.BottomToTop || parent.Direction == Scrollbar.Direction.TopToBottom;
             var isHorizontal = parent.Direction == Scrollbar.Direction.LeftToRight || parent.Direction == Scrollbar.Direction.RightToLeft;
             
