@@ -89,7 +89,7 @@ namespace MornUGUI
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            Execute((module, parent) => module.OnPointerDown(parent));
+            Execute((module, parent) => module.OnPointerDown(eventData, parent));
         }
 
         public void OnMove(AxisEventData eventData)

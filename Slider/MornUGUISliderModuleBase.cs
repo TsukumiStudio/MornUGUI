@@ -39,7 +39,7 @@ namespace MornUGUI
         {
         }
 
-        public virtual void OnPointerDown(MornUGUISlider parent)
+        public virtual void OnPointerDown(PointerEventData eventData, MornUGUISlider parent)
         {
         }
 

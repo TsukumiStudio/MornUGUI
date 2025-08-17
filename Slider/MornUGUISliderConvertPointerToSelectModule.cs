@@ -17,8 +17,13 @@ namespace MornUGUI
             }
         }
 
-        public override void OnPointerDown(MornUGUISlider parent)
+        public override void OnPointerDown(PointerEventData eventData, MornUGUISlider parent)
         {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+            
             ExecuteEvents.Execute(
                 parent.gameObject,
                 new BaseEventData(EventSystem.current),

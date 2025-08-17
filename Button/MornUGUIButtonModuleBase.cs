@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.EventSystems;
 
 namespace MornUGUI
 {
@@ -37,7 +38,7 @@ namespace MornUGUI
         {
         }
 
-        public virtual void OnPointerDown(MornUGUIButton parent)
+        public virtual void OnPointerDown(PointerEventData eventData, MornUGUIButton parent)
         {
         }
     }
