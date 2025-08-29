@@ -22,7 +22,7 @@ namespace MornUGUI
         
         public void PlayOneShot(AudioClip clip)
         {
-            if (_seSource != null && clip != null)
+            if (_seSource != null && clip != null && Application.isFocused)
             {
                 _seSource.MornPlayOneShot(clip);
             }
