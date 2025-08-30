@@ -83,6 +83,10 @@ namespace MornUGUI
                 {
                     AutoFocus();
                     _isPointing = false;
+                }else if (_cachedInput.actions["Submit"].WasPerformedThisFrame())
+                {
+                    AutoFocus();
+                    _isPointing = false;
                 }
             }
 
