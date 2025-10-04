@@ -7,6 +7,7 @@ namespace MornUGUI
     [Serializable]
     internal sealed class MornUGUIButtonConvertPointerToSelectModule : MornUGUIButtonModuleBase
     {
+        [SerializeField] private bool _immediateSubmit = true;
         [SerializeField] [ReadOnly] private bool _isExist;
 
         public override void OnDisable(MornUGUIButton parent)
@@ -28,7 +29,12 @@ namespace MornUGUI
             {
                 return;
             }
-            
+
+            if (!_immediateSubmit)
+            {
+                return;
+            }
+
             ExecuteEvents.Execute(
                 parent.gameObject,
                 new BaseEventData(EventSystem.current),
