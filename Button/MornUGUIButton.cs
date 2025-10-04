@@ -56,6 +56,7 @@ namespace MornUGUI
 
         private void Awake()
         {
+            IsInteractable = _button.interactable;
             Execute((module, parent) => module.Awake(parent));
         }
 
