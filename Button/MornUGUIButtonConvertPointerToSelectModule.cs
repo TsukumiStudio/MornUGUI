@@ -41,6 +41,24 @@ namespace MornUGUI
                 ExecuteEvents.submitHandler);
         }
 
+        public override void OnPointerClick(PointerEventData eventData, MornUGUIButton parent)
+        {
+            if (eventData.button != PointerEventData.InputButton.Left)
+            {
+                return;
+            }
+
+            if (_immediateSubmit)
+            {
+                return;
+            }
+
+            ExecuteEvents.Execute(
+                parent.gameObject,
+                new BaseEventData(EventSystem.current),
+                ExecuteEvents.submitHandler);
+        }
+
         public override void OnPointerEnter(MornUGUIButton parent)
         {
             _isExist = true;

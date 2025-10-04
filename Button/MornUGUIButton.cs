@@ -16,7 +16,8 @@ namespace MornUGUI
         ISubmitHandler,
         IPointerEnterHandler,
         IPointerExitHandler,
-        IPointerDownHandler
+        IPointerDownHandler,
+        IPointerClickHandler
     {
         [SerializeField] private Button _button;
         [SerializeField] private bool _isNegative;
@@ -111,6 +112,11 @@ namespace MornUGUI
         public void OnPointerDown(PointerEventData eventData)
         {
             Execute((module, parent) => module.OnPointerDown(eventData, parent));
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Execute((module, parent) => module.OnPointerClick(eventData, parent));
         }
     }
 }

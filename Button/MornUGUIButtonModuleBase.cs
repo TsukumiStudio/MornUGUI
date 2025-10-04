@@ -41,5 +41,9 @@ namespace MornUGUI
         public virtual void OnPointerDown(PointerEventData eventData, MornUGUIButton parent)
         {
         }
+
+        public virtual void OnPointerClick(PointerEventData eventData, MornUGUIButton parent)
+        {
+        }
     }
 }
