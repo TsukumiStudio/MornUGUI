@@ -71,5 +71,17 @@ namespace MornUGUI
 
             _target.anchoredPosition = endPos;
         }
+
+        [Button]
+        private void DebugShow()
+        {
+            _target.anchoredPosition = _showPosition;
+        }
+
+        [Button]
+        private void DebugHide()
+        {
+            _target.anchoredPosition = _hidePosition;
+        }
     }
 }

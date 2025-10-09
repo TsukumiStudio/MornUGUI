@@ -13,6 +13,7 @@ namespace MornUGUI
     {
         [SerializeField] private Image _targetImage;
         [SerializeField] private CanvasGroup _targetCanvas;
+        [SerializeField] private bool _withRaycast;
         [SerializeField] private MornUGUIShowHideTimeSettings _timeSettings;
         [SerializeField, HideIf(nameof(HasTimer))] private float _showDuration = 0.3f;
         [SerializeField, HideIf(nameof(HasTimer))] private float _showDelay;
@@ -37,6 +38,11 @@ namespace MornUGUI
             if (_targetCanvas != null)
             {
                 _targetCanvas.alpha = 0f;
+                if (_withRaycast)
+                {
+                    _targetCanvas.interactable = false;
+                    _targetCanvas.blocksRaycasts = false;
+                }
             }
         }
 
@@ -48,19 +54,25 @@ namespace MornUGUI
 
         public override async UniTask ShowAsync(CancellationToken ct = default)
         {
-            await MoveAsync(true, ct);
+            await FadeAsync(true, ct);
         }
 
         public override UniTask HideAsync(CancellationToken ct = default)
         {
-            return MoveAsync(false, ct);
+            return FadeAsync(false, ct);
         }
 
-        private async UniTask MoveAsync(bool toShow, CancellationToken ct = default)
+        private async UniTask FadeAsync(bool toShow, CancellationToken ct = default)
         {
             _cts?.Cancel();
             _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
             var token = _cts.Token;
+            if (_targetCanvas != null && _withRaycast)
+            {
+                _targetCanvas.interactable = toShow;
+                _targetCanvas.blocksRaycasts = toShow;
+            }
+
             var duration = toShow ? ShowDuration : HideDuration;
             var delay = toShow ? ShowDelay : HideDelay;
             var elapsed = 0f;
@@ -99,6 +111,34 @@ namespace MornUGUI
             if (_targetCanvas != null)
             {
                 _targetCanvas.alpha = endAlpha;
+            }
+        }
+
+        [Button]
+        private void DebugShow()
+        {
+            if (_targetCanvas != null)
+            {
+                _targetCanvas.alpha = 1f;
+                if (_withRaycast)
+                {
+                    _targetCanvas.interactable = true;
+                    _targetCanvas.blocksRaycasts = true;
+                }
+            }
+        }
+
+        [Button]
+        private void DebugHide()
+        {
+            if (_targetCanvas != null)
+            {
+                _targetCanvas.alpha = 0f;
+                if (_withRaycast)
+                {
+                    _targetCanvas.interactable = false;
+                    _targetCanvas.blocksRaycasts = false;
+                }
             }
         }
     }
