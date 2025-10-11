@@ -11,6 +11,8 @@ namespace MornUGUI
         [SerializeField] private List<MornUGUIShowHideBase> _targets;
         [SerializeField] private float _showInterval;
         [SerializeField] private float _hideInterval;
+        [SerializeField] private float _showDelay;
+        [SerializeField] private float _hideDelay;
         private CancellationTokenSource _cts;
 
         public override async UniTask ShowAsync(CancellationToken ct = default)
@@ -18,9 +20,9 @@ namespace MornUGUI
             await SequenceAsync(true, ct);
         }
 
-        public override UniTask HideAsync(CancellationToken ct = default)
+        public override async UniTask HideAsync(CancellationToken ct = default)
         {
-            return SequenceAsync(false, ct);
+            await SequenceAsync(false, ct);
         }
 
         private async UniTask SequenceAsync(bool toShow, CancellationToken ct = default)
@@ -28,6 +30,12 @@ namespace MornUGUI
             _cts?.Cancel();
             _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
             var token = _cts.Token;
+            var delay = toShow ? _showDelay : _hideDelay;
+            if (delay > 0f)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
+            }
+            
             var taskList = new List<UniTask>();
             foreach (var target in _targets)
             {
