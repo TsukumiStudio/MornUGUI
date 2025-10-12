@@ -99,6 +99,7 @@ namespace MornUGUI
                 await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
             }
 
+            var easeType = toShow ? Time.ShowEaseType : Time.HideEaseType;
             var startImageAlpha = _targetImage != null ? _targetImage.GetAlpha() : 0f;
             var startCanvasAlpha = _targetCanvas != null ? _targetCanvas.alpha : 0f;
             var endAlpha = toShow ? 1f : 0f;
@@ -107,7 +108,7 @@ namespace MornUGUI
                 ct.ThrowIfCancellationRequested();
                 elapsed += UnityEngine.Time.deltaTime;
                 var t = Mathf.Clamp01(elapsed / duration);
-                var easedT = t.Ease(Time.EaseType);
+                var easedT = t.Ease(easeType);
                 if (_targetImage != null)
                 {
                     _targetImage.SetAlpha(Mathf.LerpUnclamped(startImageAlpha, endAlpha, easedT));

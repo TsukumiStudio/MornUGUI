@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace MornUGUI
         [SerializeField] private float _hideInterval;
         [SerializeField] private float _showDelay;
         [SerializeField] private float _hideDelay;
+        [SerializeField] private bool _hideReverse;
         private CancellationTokenSource _cts;
 
         public override async UniTask ShowAsync(CancellationToken ct = default)
@@ -37,7 +39,8 @@ namespace MornUGUI
             }
             
             var taskList = new List<UniTask>();
-            foreach (var target in _targets)
+            var targets = !toShow && _hideReverse ? _targets.AsReadOnly().Reverse() : _targets;
+            foreach (var target in targets)
             {
                 if (toShow)
                 {

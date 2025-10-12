@@ -51,13 +51,15 @@ namespace MornUGUI
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
             }
+            
+            var easeType = toShow ? Time.ShowEaseType : Time.HideEaseType;
 
             while (elapsed < duration)
             {
                 ct.ThrowIfCancellationRequested();
                 elapsed += UnityEngine.Time.deltaTime;
                 var t = Mathf.Clamp01(elapsed / duration);
-                var easedT = t.Ease(Time.EaseType);
+                var easedT = t.Ease(easeType);
                 _target.anchoredPosition = Vector2.LerpUnclamped(startPos, endPos, easedT);
                 await UniTask.Yield(token);
             }

@@ -26,7 +26,7 @@ namespace MornUGUI
         private float ShowDelay => _timeSettings != null ? _timeSettings.ShowDelay : _showDelay;
         private float HideDuration => _timeSettings != null ? _timeSettings.HideDuration : _hideDuration;
         private float HideDelay => _timeSettings != null ? _timeSettings.HideDelay : _hideDelay;
-        private MornEaseType EaseType => _timeSettings != null ? _timeSettings.EaseType : _easeType;
+        private MornEaseType EaseType => _timeSettings != null ? _timeSettings.ShowEaseType : _easeType;
         private CancellationTokenSource _cts;
 
         private void Awake()
