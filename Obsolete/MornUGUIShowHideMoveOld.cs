@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace MornUGUI
 {
-    public sealed class MornUGUIShowHideMove : MornUGUIShowHideBase
+    [Obsolete("MornUGUIShowHide を使用してください。")]
+    public sealed class MornUGUIShowHideMoveOld : MornUGUIShowHideBase
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private Vector2 _showPosition;

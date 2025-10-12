@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 namespace MornUGUI
 {
-    public sealed class MornUGUIShowHideFade : MornUGUIShowHideBase
+    [Obsolete("MornUGUIShowHide を使用してください。")]
+    public sealed class MornUGUIShowHideFadeOld : MornUGUIShowHideBase
     {
         [SerializeField] private Image _targetImage;
         [SerializeField] private CanvasGroup _targetCanvas;
