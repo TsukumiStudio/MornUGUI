@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornEase;
+using MornEditor;
 using UnityEngine;
 
 namespace MornUGUI
@@ -9,14 +10,29 @@ namespace MornUGUI
     [Serializable]
     public sealed class MornUGUIShowHideMoveModule : MornUGUIShowHideModuleBase
     {
-        [SerializeField] private RectTransform _target;
+        private enum ReferenceType
+        {
+            Custom,
+            Auto,
+        }
+
+        [SerializeField] private ReferenceType _referenceType;
+        [SerializeField, EnableIf(nameof(IsCustom))] private RectTransform _target;
         [SerializeField] private Vector2 _showPosition;
         [SerializeField] private Vector2 _hidePosition;
         private CancellationTokenSource _cts;
+        private bool IsCustom => _referenceType == ReferenceType.Custom;
+        private bool IsAuto => _referenceType == ReferenceType.Auto;
 
-        public override void OnAwake()
+        public override void OnAwake(MornUGUIShowHideBase parent)
         {
+            if (IsAuto) _target = parent.GetComponent<RectTransform>();
             _target.anchoredPosition = _hidePosition;
+        }
+
+        public override void OnValidate(MornUGUIShowHideBase parent)
+        {
+            if (IsAuto) _target = parent.GetComponent<RectTransform>();
         }
 
         public override void OnShowImmediate()
@@ -51,9 +67,8 @@ namespace MornUGUI
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
             }
-            
-            var easeType = toShow ? Time.ShowEaseType : Time.HideEaseType;
 
+            var easeType = toShow ? Time.ShowEaseType : Time.HideEaseType;
             while (elapsed < duration)
             {
                 ct.ThrowIfCancellationRequested();

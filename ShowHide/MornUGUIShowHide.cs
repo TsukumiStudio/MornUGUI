@@ -9,9 +9,9 @@ namespace MornUGUI
     public sealed class MornUGUIShowHide : MornUGUIShowHideBase
     {
         [SerializeField] private bool _fadeEnabled;
-        [SerializeField, ShowIf(nameof(_fadeEnabled)), ShowFlat] private MornUGUIShowHideFadeModule _fadeModule;
+        [SerializeField, ShowIf(nameof(_fadeEnabled))] private MornUGUIShowHideFadeModule _fadeModule;
         [SerializeField] private bool _moveEnabled;
-        [SerializeField, ShowIf(nameof(_moveEnabled)), ShowFlat] private MornUGUIShowHideMoveModule _moveModule;
+        [SerializeField, ShowIf(nameof(_moveEnabled))] private MornUGUIShowHideMoveModule _moveModule;
 
         private IEnumerable<MornUGUIShowHideModuleBase> GetModules()
         {
@@ -30,7 +30,15 @@ namespace MornUGUI
         {
             foreach (var module in GetModules())
             {
-                module.OnAwake();
+                module.OnAwake(this);
+            }
+        }
+
+        private void OnValidate()
+        {
+            foreach (var module in GetModules())
+            {
+                module.OnValidate(this);
             }
         }
 

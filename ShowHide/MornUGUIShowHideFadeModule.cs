@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornEase;
+using MornEditor;
 using MornUtil;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,13 +12,36 @@ namespace MornUGUI
     [Serializable]
     public sealed class MornUGUIShowHideFadeModule : MornUGUIShowHideModuleBase
     {
-        [SerializeField] private Image _targetImage;
-        [SerializeField] private CanvasGroup _targetCanvas;
+        private enum ReferenceType
+        {
+            Custom,
+            AutoImage,
+            AutoCanvas,
+        }
+
+        [SerializeField] private ReferenceType _referenceType;
+        [SerializeField, HideIf(nameof(IsAutoCanvas)), EnableIf(nameof(IsCustom))] private Image _targetImage;
+        [SerializeField, HideIf(nameof(IsAutoImage)), EnableIf(nameof(IsCustom))] private CanvasGroup _targetCanvas;
         [SerializeField] private bool _withRaycast;
+        private bool IsCustom => _referenceType == ReferenceType.Custom;
+        private bool IsAutoImage => _referenceType == ReferenceType.AutoImage;
+        private bool IsAutoCanvas => _referenceType == ReferenceType.AutoCanvas;
         private CancellationTokenSource _cts;
 
-        public override void OnAwake()
+        public override void OnAwake(MornUGUIShowHideBase parent)
         {
+            switch (_referenceType)
+            {
+                case ReferenceType.AutoImage:
+                    _targetImage = parent.GetComponent<Image>();
+                    _targetCanvas = null;
+                    break;
+                case ReferenceType.AutoCanvas:
+                    _targetImage = null;
+                    _targetCanvas = parent.GetComponent<CanvasGroup>();
+                    break;
+            }
+
             if (_targetImage != null)
             {
                 _targetImage.SetAlpha(0f);
@@ -31,6 +55,21 @@ namespace MornUGUI
                     _targetCanvas.interactable = false;
                     _targetCanvas.blocksRaycasts = false;
                 }
+            }
+        }
+
+        public override void OnValidate(MornUGUIShowHideBase parent)
+        {
+            switch (_referenceType)
+            {
+                case ReferenceType.AutoImage:
+                    _targetImage = parent.GetComponent<Image>();
+                    _targetCanvas = null;
+                    break;
+                case ReferenceType.AutoCanvas:
+                    _targetImage = null;
+                    _targetCanvas = parent.GetComponent<CanvasGroup>();
+                    break;
             }
         }
 
