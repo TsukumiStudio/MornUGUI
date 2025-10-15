@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using MornEditor;
 using UnityEngine;
 
 namespace MornUGUI
@@ -37,7 +38,7 @@ namespace MornUGUI
             {
                 await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
             }
-            
+
             var taskList = new List<UniTask>();
             var targets = !toShow && _hideReverse ? _targets.AsReadOnly().Reverse() : _targets;
             foreach (var target in targets)
@@ -61,6 +62,24 @@ namespace MornUGUI
             }
 
             await UniTask.WhenAll(taskList);
+        }
+
+        [Button]
+        public override void DebugShow()
+        {
+            foreach (var target in _targets)
+            {
+                target.DebugShow();
+            }
+        }
+
+        [Button]
+        public override void DebugHide()
+        {
+            foreach (var target in _targets)
+            {
+                target.DebugHide();
+            }
         }
     }
 }

@@ -65,7 +65,7 @@ namespace MornUGUI
         }
 
         [Button]
-        private void DebugShow()
+        public override void DebugShow()
         {
             foreach (var module in GetModules())
             {
@@ -74,7 +74,7 @@ namespace MornUGUI
         }
 
         [Button]
-        private void DebugHide()
+        public override void DebugHide()
         {
             foreach (var module in GetModules())
             {

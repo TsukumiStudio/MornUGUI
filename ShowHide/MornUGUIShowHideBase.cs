@@ -8,5 +8,7 @@ namespace MornUGUI
     {
         public abstract UniTask ShowAsync(CancellationToken ct = default);
         public abstract UniTask HideAsync(CancellationToken ct = default);
+        public abstract void DebugShow();
+        public abstract void DebugHide();
     }
 }

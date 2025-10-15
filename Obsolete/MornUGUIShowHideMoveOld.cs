@@ -74,13 +74,13 @@ namespace MornUGUI
         }
 
         [Button]
-        private void DebugShow()
+        public override void DebugShow()
         {
             _target.anchoredPosition = _showPosition;
         }
 
         [Button]
-        private void DebugHide()
+        public override void DebugHide()
         {
             _target.anchoredPosition = _hidePosition;
         }
