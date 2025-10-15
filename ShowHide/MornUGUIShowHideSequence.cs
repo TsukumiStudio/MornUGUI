@@ -32,11 +32,11 @@ namespace MornUGUI
         {
             _cts?.Cancel();
             _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
-            var token = _cts.Token;
+            ct = _cts.Token;
             var delay = toShow ? _showDelay : _hideDelay;
             if (delay > 0f)
             {
-                await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: token);
+                await UniTask.Delay(TimeSpan.FromSeconds(delay), cancellationToken: ct);
             }
 
             var taskList = new List<UniTask>();
@@ -45,18 +45,18 @@ namespace MornUGUI
             {
                 if (toShow)
                 {
-                    taskList.Add(target.ShowAsync(token));
+                    taskList.Add(target.ShowAsync(ct));
                     if (_showInterval > 0f)
                     {
-                        await UniTask.Delay(TimeSpan.FromSeconds(_showInterval), cancellationToken: token);
+                        await UniTask.Delay(TimeSpan.FromSeconds(_showInterval), cancellationToken: ct);
                     }
                 }
                 else
                 {
-                    taskList.Add(target.HideAsync(token));
+                    taskList.Add(target.HideAsync(ct));
                     if (_hideInterval > 0f)
                     {
-                        await UniTask.Delay(TimeSpan.FromSeconds(_hideInterval), cancellationToken: token);
+                        await UniTask.Delay(TimeSpan.FromSeconds(_hideInterval), cancellationToken: ct);
                     }
                 }
             }
@@ -67,6 +67,8 @@ namespace MornUGUI
         [Button]
         public override void DebugShow()
         {
+            _cts?.Cancel();
+            _cts = null;
             foreach (var target in _targets)
             {
                 target.DebugShow();
@@ -76,6 +78,8 @@ namespace MornUGUI
         [Button]
         public override void DebugHide()
         {
+            _cts?.Cancel();
+            _cts = null;
             foreach (var target in _targets)
             {
                 target.DebugHide();

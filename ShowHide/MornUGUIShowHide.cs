@@ -12,6 +12,7 @@ namespace MornUGUI
         [SerializeField, ShowIf(nameof(_fadeEnabled))] private MornUGUIShowHideFadeModule _fadeModule;
         [SerializeField] private bool _moveEnabled;
         [SerializeField, ShowIf(nameof(_moveEnabled))] private MornUGUIShowHideMoveModule _moveModule;
+        private CancellationTokenSource _cts;
 
         private IEnumerable<MornUGUIShowHideModuleBase> GetModules()
         {
@@ -44,6 +45,9 @@ namespace MornUGUI
 
         public override UniTask ShowAsync(CancellationToken ct = default)
         {
+            _cts?.Cancel();
+            _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            ct = _cts.Token;
             var tasks = new List<UniTask>();
             foreach (var module in GetModules())
             {
@@ -55,6 +59,9 @@ namespace MornUGUI
 
         public override UniTask HideAsync(CancellationToken ct = default)
         {
+            _cts?.Cancel();
+            _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            ct = _cts.Token;
             var tasks = new List<UniTask>();
             foreach (var module in GetModules())
             {
@@ -67,6 +74,8 @@ namespace MornUGUI
         [Button]
         public override void DebugShow()
         {
+            _cts?.Cancel();
+            _cts = null;
             foreach (var module in GetModules())
             {
                 module.OnShowImmediate();
@@ -76,6 +85,8 @@ namespace MornUGUI
         [Button]
         public override void DebugHide()
         {
+            _cts?.Cancel();
+            _cts = null;
             foreach (var module in GetModules())
             {
                 module.OnHideImmediate();
