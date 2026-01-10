@@ -2,10 +2,10 @@ using System;
 using MornSound;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public class MornUGUICtrl
+    public class MornUGUIService
     {
         [SerializeField] private AudioSource _seSource;
         public bool IsBlocking { get; private set; }

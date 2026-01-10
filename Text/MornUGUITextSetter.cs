@@ -2,10 +2,10 @@ using MornEditor;
 using TMPro;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [ExecuteAlways]
-    public sealed class MornUGUITextSetter : MonoBehaviour
+    internal sealed class MornUGUITextSetter : MonoBehaviour
     {
         [SerializeField, ReadOnly] private TMP_Text _text;
         [SerializeField, HideIf(nameof(HasInheritedSizeSettings))] private MornUGUITextSizeSettings _sizeSettings;

@@ -4,7 +4,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     /// <summary>選択されたUI要素を自動的にスクロールビュー内に表示するモジュール</summary>
     [Serializable]

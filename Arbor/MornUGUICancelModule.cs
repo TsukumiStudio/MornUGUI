@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUICancelModule : MornUGUIModuleBase

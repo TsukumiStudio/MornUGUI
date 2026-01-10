@@ -4,10 +4,10 @@ using MornEditor;
 using TMPro;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CreateAssetMenu(fileName = nameof(MornUGUIFontSettings), menuName = "Morn/" + nameof(MornUGUIFontSettings))]
-    public sealed class MornUGUIFontSettings : ScriptableObject
+    internal sealed class MornUGUIFontSettings : ScriptableObject
     {
         [Serializable]
         private class MaterialSet

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     /// <summary>グリッドレイアウトに基づいてScrollbarのステップ数を自動設定するモジュール</summary>
     [Serializable]

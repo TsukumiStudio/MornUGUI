@@ -1,13 +1,12 @@
-﻿using MornGlobal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CreateAssetMenu(fileName = nameof(MornUGUIGlobal), menuName = "Morn/" + nameof(MornUGUIGlobal))]
     public sealed class MornUGUIGlobal : MornGlobalBase<MornUGUIGlobal>
     {
-        protected override string ModuleName => nameof(MornUGUI);
+        protected override string ModuleName => "MornUGUI";
         [Header("Input")]
         [SerializeField] private InputActionReference _submit;
         [SerializeField] private InputActionReference _cancel;

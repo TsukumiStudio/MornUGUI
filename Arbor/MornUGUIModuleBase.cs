@@ -1,6 +1,6 @@
 using System;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal abstract class MornUGUIModuleBase

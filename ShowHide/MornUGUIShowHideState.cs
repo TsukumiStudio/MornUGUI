@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 using Arbor;
 using Cysharp.Threading.Tasks;
-using MornUtil;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
-    public sealed class MornUGUIShowHideState : StateBehaviour
+    internal sealed class MornUGUIShowHideState : StateBehaviour
     {
         [SerializeField] private List<MornUGUIShowHideEntry> _targets;
         [SerializeField] private StateLink _onComplete;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CreateAssetMenu(fileName = nameof(MornUGUITextSizeSettings), menuName = "Morn/" + nameof(MornUGUITextSizeSettings))]
     public sealed class MornUGUITextSizeSettings : ScriptableObject

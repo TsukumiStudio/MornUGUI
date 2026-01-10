@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUICanvasFadeModule : MornUGUIModuleBase

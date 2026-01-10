@@ -2,10 +2,10 @@ using System;
 using UniRx;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public sealed class MornUGUIButtonToggleModule : MornUGUIButtonModuleBase
+    internal sealed class MornUGUIButtonToggleModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _selectedOn;
         [SerializeField] private GameObject _unSelectedOn;

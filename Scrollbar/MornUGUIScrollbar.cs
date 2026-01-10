@@ -8,17 +8,17 @@ using UnityEngine.UI;
 using VContainer;
 using static UnityEngine.UI.Scrollbar;
 
-namespace MornUGUI
+namespace MornLib
 {
     [RequireComponent(typeof(Scrollbar))]
-    public sealed class MornUGUIScrollbar : MonoBehaviour, IMoveHandler , ISelectHandler, ISubmitHandler
+    internal sealed class MornUGUIScrollbar : MonoBehaviour, IMoveHandler , ISelectHandler, ISubmitHandler
     {
         [SerializeField] private Scrollbar _scrollbar;
         [SerializeField] private MornUGUIScrollbarActiveModule _activeModule;
         [SerializeField] private MornUGUIScrollbarNavigationModule _navigationModule;
         [SerializeField] private MornUGUIScrollbarSoundModule _soundModule;
-        [Inject] private MornUGUICtrl _uguiCtrl; 
-        public MornUGUICtrl UGUICtrl => _uguiCtrl;
+        [Inject] private MornUGUIService _uguiCtrl; 
+        public MornUGUIService UGUICtrl => _uguiCtrl;
         public Direction Direction => _scrollbar.direction;
         public float Value => _scrollbar.value;
         public float Size => _scrollbar.size;

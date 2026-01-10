@@ -2,9 +2,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
-    public abstract class MornUGUIShowHideBase : MonoBehaviour
+    internal abstract class MornUGUIShowHideBase : MonoBehaviour
     {
         public abstract UniTask ShowAsync(CancellationToken ct = default);
         public abstract UniTask HideAsync(CancellationToken ct = default);

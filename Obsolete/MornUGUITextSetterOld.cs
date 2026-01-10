@@ -2,11 +2,11 @@ using System;
 using TMPro;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [ExecuteAlways]
     [Obsolete("廃止予定")]
-    public sealed class MornUGUITextSetterOld : MonoBehaviour
+    internal sealed class MornUGUITextSetterOld : MonoBehaviour
     {
         [SerializeField, ReadOnly] public TMP_Text Text;
         [SerializeField] public MornUGUITextSizeSettings SizeSettings;

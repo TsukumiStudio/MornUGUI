@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUISoundBlockModule : MornUGUIModuleBase

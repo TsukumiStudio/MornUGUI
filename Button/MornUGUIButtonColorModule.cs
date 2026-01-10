@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal sealed class MornUGUIButtonColorModule : MornUGUIButtonModuleBase

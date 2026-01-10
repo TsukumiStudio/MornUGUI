@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [RequireComponent(typeof(RectTransform))]
     [ExecuteAlways]

@@ -3,14 +3,13 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornEase;
 using MornEditor;
-using MornUtil;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public sealed class MornUGUIShowHideFadeModule : MornUGUIShowHideModuleBase
+    internal sealed class MornUGUIShowHideFadeModule : MornUGUIShowHideModuleBase
     {
         private enum ReferenceType
         {

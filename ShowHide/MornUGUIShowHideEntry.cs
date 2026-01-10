@@ -1,15 +1,13 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-#if UNITY_EDITOR
 using UnityEditor;
-#endif
+using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public class MornUGUIShowHideEntry
+    internal class MornUGUIShowHideEntry
     {
         [SerializeField] private MornUGUIShowHideBase _target;
         [SerializeField] private bool _toShow;

@@ -4,9 +4,9 @@ using Cysharp.Threading.Tasks;
 using MornEditor;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
-    public sealed class MornUGUIShowHide : MornUGUIShowHideBase
+    internal sealed class MornUGUIShowHide : MornUGUIShowHideBase
     {
         [SerializeField] private bool _fadeEnabled;
         [SerializeField, ShowIf(nameof(_fadeEnabled))] private MornUGUIShowHideFadeModule _fadeModule;

@@ -8,7 +8,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUIButtonModule : MornUGUIModuleBase
@@ -31,9 +31,8 @@ namespace MornUGUI
                 {
                     continue;
                 }
-                
-                linkSet.Button.OnSubmitAsObservable().Subscribe(
-                    _ => OnButtonPressed(parent, linkSet.StateLink).Forget()).AddTo(parent.CancellationTokenOnEnd);
+
+                linkSet.Button.OnSubmitAsObservable().Subscribe(_ => OnButtonPressed(parent, linkSet.StateLink).Forget()).AddTo(parent.CancellationTokenOnEnd);
             }
         }
 
@@ -60,15 +59,7 @@ namespace MornUGUI
                 }
                 else
                 {
-                    _buttonStateLinkSets.Add(
-                        new ButtonStateLinkSet
-                        {
-                            Button = button,
-                            StateLink = new StateLink
-                            {
-                                name = button.name,
-                            },
-                        });
+                    _buttonStateLinkSets.Add(new ButtonStateLinkSet { Button = button, StateLink = new StateLink { name = button.name, }, });
                 }
             }
 

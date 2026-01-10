@@ -5,10 +5,10 @@ using MornEase;
 using MornEditor;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Obsolete("MornUGUIShowHide を使用してください。")]
-    public sealed class MornUGUIShowHideMoveOld : MornUGUIShowHideBase
+    internal sealed class MornUGUIShowHideMoveOld : MornUGUIShowHideBase
     {
         [SerializeField] private RectTransform _target;
         [SerializeField] private Vector2 _showPosition;

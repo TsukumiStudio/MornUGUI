@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CreateAssetMenu(fileName = nameof(MornUGUIRectSizeSettings), menuName = "Morn/" + nameof(MornUGUIRectSizeSettings))]
-    public sealed class MornUGUIRectSizeSettings : ScriptableObject
+    internal sealed class MornUGUIRectSizeSettings : ScriptableObject
     {
         public Vector2 Size = new(160, 90);
     }

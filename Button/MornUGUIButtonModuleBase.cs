@@ -1,10 +1,10 @@
 using System;
 using UnityEngine.EventSystems;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public abstract class MornUGUIButtonModuleBase
+    internal abstract class MornUGUIButtonModuleBase
     {
         public virtual void Awake(MornUGUIButton parent)
         {

@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUIFocusModule : MornUGUIModuleBase

@@ -4,7 +4,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal sealed class MornUGUIScrollbarActiveModule : MornUGUIScrollbarModuleBase

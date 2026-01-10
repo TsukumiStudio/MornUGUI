@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using VContainer;
 
-namespace MornUGUI
+namespace MornLib
 {
     internal class MornUGUIControlState : StateBehaviour
     {
@@ -17,8 +17,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIFocusModule _focusModule;
         [SerializeField] private MornUGUICancelModule _cancelModule;
         [SerializeField] private MornUGUISoundBlockModule _soundBlockModule;
-        [Inject] private MornUGUICtrl _mornUGUICtrl;
-        public MornUGUICtrl UGUICtrl => _mornUGUICtrl;
+        [Inject] private MornUGUIService _mornUGUICtrl;
+        public MornUGUIService UGUICtrl => _mornUGUICtrl;
         public CanvasGroup CanvasGroup => _canvasGroup;
         public MornUGUIAnimationModule AnimationModule => _animationModule;
 

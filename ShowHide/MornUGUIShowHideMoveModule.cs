@@ -5,10 +5,10 @@ using MornEase;
 using MornEditor;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public sealed class MornUGUIShowHideMoveModule : MornUGUIShowHideModuleBase
+    internal sealed class MornUGUIShowHideMoveModule : MornUGUIShowHideModuleBase
     {
         private enum ReferenceType
         {

@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
+    internal sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;

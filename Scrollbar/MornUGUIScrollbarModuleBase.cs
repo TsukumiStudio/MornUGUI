@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.EventSystems;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal abstract class MornUGUIScrollbarModuleBase

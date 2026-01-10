@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     /// <summary>拡張可能なScrollRectコンポーネント</summary>
     [RequireComponent(typeof(ScrollRect))]
-    public sealed class MornUGUIScrollRect : MonoBehaviour
+    internal sealed class MornUGUIScrollRect : MonoBehaviour
     {
         [SerializeField] private ScrollRect _scrollRect;
         [SerializeField] private MornUGUIScrollRectAutoScrollModule _autoScrollModule;

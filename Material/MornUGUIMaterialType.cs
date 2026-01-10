@@ -1,10 +1,10 @@
 using System;
 using MornEnum;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public sealed class MornUGUIMaterialType : MornEnumBase
+    internal sealed class MornUGUIMaterialType : MornEnumBase
     {
         protected override string[] Values => MornUGUIGlobal.I.MaterialNames;
     }

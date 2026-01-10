@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal sealed class MornUGUIButtonConvertPointerToSelectModule : MornUGUIButtonModuleBase

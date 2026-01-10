@@ -6,9 +6,9 @@ using Cysharp.Threading.Tasks;
 using MornEditor;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
-    public sealed class MornUGUIShowHideSequence : MornUGUIShowHideBase
+    internal sealed class MornUGUIShowHideSequence : MornUGUIShowHideBase
     {
         [SerializeField] private List<MornUGUIShowHideBase> _targets;
         [SerializeField] private float _showInterval;

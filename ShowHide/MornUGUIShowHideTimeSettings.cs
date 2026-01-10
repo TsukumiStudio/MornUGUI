@@ -1,10 +1,10 @@
 using MornEase;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CreateAssetMenu(fileName = nameof(MornUGUIShowHideTimeSettings), menuName = "Morn/" + nameof(MornUGUIShowHideTimeSettings))]
-    public sealed class MornUGUIShowHideTimeSettings : ScriptableObject
+    internal sealed class MornUGUIShowHideTimeSettings : ScriptableObject
     {
         [SerializeField] private float _showDuration = 0.3f;
         [SerializeField] private float _showDelay;

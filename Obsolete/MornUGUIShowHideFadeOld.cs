@@ -3,14 +3,13 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornEase;
 using MornEditor;
-using MornUtil;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Obsolete("MornUGUIShowHide を使用してください。")]
-    public sealed class MornUGUIShowHideFadeOld : MornUGUIShowHideBase
+    internal sealed class MornUGUIShowHideFadeOld : MornUGUIShowHideBase
     {
         [SerializeField] private Image _targetImage;
         [SerializeField] private CanvasGroup _targetCanvas;

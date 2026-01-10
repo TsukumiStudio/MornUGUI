@@ -3,10 +3,10 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
-    public abstract class MornUGUIShowHideModuleBase
+    internal abstract class MornUGUIShowHideModuleBase
     {
         [SerializeField] protected MornUGUIShowHideTimeSettings Time;
         public abstract void OnAwake(MornUGUIShowHideBase parent);

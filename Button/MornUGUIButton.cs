@@ -7,10 +7,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using VContainer;
 
-namespace MornUGUI
+namespace MornLib
 {
     [RequireComponent(typeof(Button))]
-    public class MornUGUIButton : MonoBehaviour,
+    internal sealed class MornUGUIButton : MonoBehaviour,
         ISelectHandler,
         IDeselectHandler,
         ISubmitHandler,
@@ -27,8 +27,8 @@ namespace MornUGUI
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [SerializeField] private MornUGUIButtonToggleModule _toggleModule;
-        [Inject] private MornUGUICtrl _uguiCtrl;
-        public MornUGUICtrl UGUICtrl => _uguiCtrl;
+        [Inject] private MornUGUIService _uguiCtrl;
+        public MornUGUIService UGUICtrl => _uguiCtrl;
         public bool IsInteractable { get; set; }
         public bool IsNegative => _isNegative;
         public bool AllowAsFocusCached => _allowAsFocusCached;

@@ -3,10 +3,10 @@ using MornEnum;
 using UnityEditor;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [CustomPropertyDrawer(typeof(MornUGUIMaterialType))]
-    public class MornUGUIMaterialTypeDrawer : MornEnumDrawerBase
+    internal class MornUGUIMaterialTypeDrawer : MornEnumDrawerBase
     {
         protected override string[] Values => MornUGUIGlobal.I.MaterialNames;
         protected override Object PingTarget => MornUGUIGlobal.I;

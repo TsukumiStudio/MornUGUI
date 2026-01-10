@@ -2,10 +2,9 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using MornEditor;
-using MornUtil;
 using UnityEngine;
 
-namespace MornUGUI
+namespace MornLib
 {
     [Serializable]
     internal class MornUGUIAnimationModule : MornUGUIModuleBase
