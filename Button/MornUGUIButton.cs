@@ -10,7 +10,7 @@ using VContainer;
 namespace MornLib
 {
     [RequireComponent(typeof(Button))]
-    internal sealed class MornUGUIButton : MonoBehaviour,
+    public sealed class MornUGUIButton : MonoBehaviour,
         ISelectHandler,
         IDeselectHandler,
         ISubmitHandler,

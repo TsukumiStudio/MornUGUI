@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 namespace MornLib
 {
     [Serializable]
-    internal abstract class MornUGUIButtonModuleBase
+    public abstract class MornUGUIButtonModuleBase
     {
         public virtual void Awake(MornUGUIButton parent)
         {

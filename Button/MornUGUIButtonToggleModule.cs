@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MornLib
 {
     [Serializable]
-    internal sealed class MornUGUIButtonToggleModule : MornUGUIButtonModuleBase
+    public sealed class MornUGUIButtonToggleModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _selectedOn;
         [SerializeField] private GameObject _unSelectedOn;

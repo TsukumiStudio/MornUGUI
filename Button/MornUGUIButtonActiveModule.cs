@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MornLib
 {
     [Serializable]
-    internal sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
+    public sealed class MornUGUIButtonActiveModule : MornUGUIButtonModuleBase
     {
         [SerializeField] private GameObject _focused;
         [SerializeField] private GameObject _unfocused;

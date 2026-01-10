@@ -40,6 +40,7 @@ namespace MornLib
             {
                 clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
             }
+
             parent.UGUICtrl.PlayOneShot(clip);
         }
     }

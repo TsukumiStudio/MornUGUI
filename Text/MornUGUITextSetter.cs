@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MornLib
 {
     [ExecuteAlways]
-    internal sealed class MornUGUITextSetter : MonoBehaviour
+    public sealed class MornUGUITextSetter : MonoBehaviour
     {
         [SerializeField, ReadOnly] private TMP_Text _text;
         [SerializeField, HideIf(nameof(HasInheritedSizeSettings))] private MornUGUITextSizeSettings _sizeSettings;

@@ -6,7 +6,7 @@ namespace MornLib
 {
     [ExecuteAlways]
     [Obsolete("廃止予定")]
-    internal sealed class MornUGUITextSetterOld : MonoBehaviour
+    public sealed class MornUGUITextSetterOld : MonoBehaviour
     {
         [SerializeField, ReadOnly] public TMP_Text Text;
         [SerializeField] public MornUGUITextSizeSettings SizeSettings;
