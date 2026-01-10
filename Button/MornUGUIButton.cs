@@ -25,6 +25,7 @@ namespace MornLib
         [SerializeField] private MornUGUIButtonActiveModule _activeModule;
         [SerializeField] private MornUGUIButtonColorModule _colorModule;
         [SerializeField] private MornUGUIButtonConvertPointerToSelectModule _convertPointerToSelectModule;
+        [SerializeField] private MornUGUIButtonScalerModule _scalerModule;
         [SerializeField] private MornUGUIButtonSoundModule _soundModule;
         [SerializeField] private MornUGUIButtonToggleModule _toggleModule;
         [Inject] private MornUGUIService _uguiCtrl;
@@ -36,19 +37,20 @@ namespace MornLib
         public IObservable<Unit> OnButtonSubmit => _button.OnSubmitAsObservable().Select(_ => Unit.Default);
         public MornUGUIButtonToggleModule AsToggle => _toggleModule;
         public MornUGUIButtonActiveModule AsActive => _activeModule;
-
-        private IEnumerable<MornUGUIButtonModuleBase> GetModules()
+        private List<MornUGUIButtonModuleBase> _module;
+        private List<MornUGUIButtonModuleBase> Modules => _module ??= new List<MornUGUIButtonModuleBase>
         {
-            yield return _activeModule;
-            yield return _colorModule;
-            yield return _convertPointerToSelectModule;
-            yield return _soundModule;
-            yield return _toggleModule;
-        }
+            _activeModule,
+            _colorModule,
+            _convertPointerToSelectModule,
+            _scalerModule,
+            _soundModule,
+            _toggleModule,
+        };
 
         private void Execute(Action<MornUGUIButtonModuleBase, MornUGUIButton> action)
         {
-            foreach (var module in GetModules())
+            foreach (var module in Modules)
             {
                 action(module, this);
             }
@@ -66,12 +68,12 @@ namespace MornLib
             {
                 return;
             }
-            
+
             if (EventSystem.current.currentSelectedGameObject == gameObject)
             {
                 EventSystem.current.SetSelectedGameObject(null);
             }
-            
+
             Execute((module, parent) => module.OnDisable(parent));
         }
 
