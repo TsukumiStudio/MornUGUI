@@ -6,7 +6,7 @@ namespace MornLib
     [CreateAssetMenu(fileName = nameof(MornUGUIGlobal), menuName = "Morn/" + nameof(MornUGUIGlobal))]
     public sealed class MornUGUIGlobal : MornGlobalBase<MornUGUIGlobal>
     {
-        public override string ModuleName => "MornUGUI";
+        protected override string ModuleName => "MornUGUI";
         [Header("Input")]
         [SerializeField] private InputActionReference _submit;
         [SerializeField] private InputActionReference _cancel;
