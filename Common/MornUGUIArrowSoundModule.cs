@@ -7,8 +7,8 @@ namespace MornLib
     [Serializable]
     internal sealed class MornUGUIArrowSoundModule : MornUGUIModuleBase
     {
-        [SerializeField] private bool _ignoreCursor;
-        [SerializeField] private bool _ignoreSubmit;
+        [SerializeField] private bool _isIgnoreOnCursor;
+        [SerializeField] private bool _isIgnoreOnSubmit;
         [SerializeField] private AudioClip _overrideCursorClip;
         [SerializeField] private AudioClip _overrideSubmitClip;
         private IMornUGUIMovable _movable;
@@ -20,14 +20,14 @@ namespace MornLib
 
         public override void OnSelect()
         {
-            if (_ignoreCursor || MornUGUIService.I.IsBlocking) return;
+            if (_isIgnoreOnCursor) return;
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
 
         public override void OnMove(AxisEventData axis)
         {
-            if (_ignoreCursor || MornUGUIService.I.IsBlocking) return;
+            if (_isIgnoreOnCursor) return;
             if (_movable.IsHorizontal)
             {
                 if (axis.moveDir != MoveDirection.Left && axis.moveDir != MoveDirection.Right) return;
@@ -43,7 +43,7 @@ namespace MornLib
             }
 
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
     }
 }

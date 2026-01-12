@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using UniRx;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.UI.Scrollbar;
 
 namespace MornLib
 {
-    public sealed class MornUGUISelector : MornUGUIBase, IMornUGUISelector, IMornUGUIInteractable, IMornUGUIMovable, IMornUGUIArrow
+    public sealed class MornUGUISelector : MornUGUIBase,
+        IMornUGUISelector,
+        IMornUGUIInteractable,
+        IMornUGUIMovable,
+        IMornUGUIArrow
     {
         [Header("MornUGUISelector")]
         [SerializeField] private Direction _direction;
@@ -53,13 +58,18 @@ namespace MornLib
         private bool IsAtMax => Value >= _valueRange.y;
         Vector2Int IMornUGUISelector.ValueRange => _valueRange;
         int IMornUGUISelector.Value => Value;
-        bool IMornUGUIInteractable.IsActive => true;
+        bool IMornUGUIInteractable.IsLocked => false;
+        bool IMornUGUIInteractable.IsNegative => false;
         bool IMornUGUIMovable.IsHorizontal => _direction is Direction.LeftToRight or Direction.RightToLeft;
         bool IMornUGUIMovable.IsVertical => _direction is Direction.BottomToTop or Direction.TopToBottom;
         bool IMornUGUIMovable.CanUpper => _direction == Direction.BottomToTop ? !IsAtMax : !IsAtMin;
         bool IMornUGUIMovable.CanBottom => _direction == Direction.BottomToTop ? !IsAtMin : !IsAtMax;
         bool IMornUGUIMovable.CanLeft => _direction == Direction.LeftToRight ? !IsAtMin : !IsAtMax;
         bool IMornUGUIMovable.CanRight => _direction == Direction.LeftToRight ? !IsAtMax : !IsAtMin;
+        Selectable IMornUGUIMovable.UpNavigationTarget => FindSelectableOnUp();
+        Selectable IMornUGUIMovable.DownNavigationTarget => FindSelectableOnDown();
+        Selectable IMornUGUIMovable.LeftNavigationTarget => FindSelectableOnLeft();
+        Selectable IMornUGUIMovable.RightNavigationTarget => FindSelectableOnRight();
 
         protected override void Awake()
         {

@@ -2,6 +2,7 @@ namespace MornLib
 {
     internal interface IMornUGUIInteractable
     {
-        bool IsActive { get; }
+        bool IsLocked { get; }
+        bool IsNegative { get; }
     }
 }

@@ -1,7 +1,9 @@
 #if USE_MORN_LOCALIZE
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TMPro;
+using UniRx;
 using UnityEngine;
 
 namespace MornLib
@@ -16,6 +18,7 @@ namespace MornLib
         public void Initialize(IMornUGUISelector parent)
         {
             _parent = parent;
+            MornLocalizeCore.OnLanguageChanged.Subscribe(_ => OnValueChanged()).AddTo(DestroyCancellationToken);
         }
 
         public override void OnEnable()

@@ -14,35 +14,23 @@ namespace MornLib
 
         public override void OnSelect(MornUGUISlider parent)
         {
-            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
-            {
-                return;
-            }
-
+            if (_ignoreCursor) return;
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
 
         public override void OnMove(MornUGUISlider parent, AxisEventData axis)
         {
-            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
-            {
-                return;
-            }
-
+            if (_ignoreCursor) return;
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
 
         public override void OnSubmit(MornUGUISlider parent)
         {
-            if (_ignoreSubmit)
-            {
-                return;
-            }
-
+            if (_ignoreSubmit) return;
             var clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
     }
 }

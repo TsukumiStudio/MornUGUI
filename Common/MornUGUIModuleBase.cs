@@ -1,9 +1,12 @@
+using System.Threading;
 using UnityEngine.EventSystems;
 
 namespace MornLib
 {
     internal abstract class MornUGUIModuleBase
     {
+        public CancellationToken DestroyCancellationToken { protected get; set; }
+
         public virtual void Awake()
         {
         }
@@ -29,6 +32,22 @@ namespace MornLib
         }
 
         public virtual void OnMove(AxisEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerExit(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerDown(PointerEventData eventData)
+        {
+        }
+
+        public virtual void OnPointerClick(PointerEventData eventData)
         {
         }
 

@@ -1,3 +1,5 @@
+using UnityEngine.UI;
+
 namespace MornLib
 {
     internal interface IMornUGUIMovable
@@ -8,5 +10,9 @@ namespace MornLib
         bool CanBottom { get; }
         bool CanLeft { get; }
         bool CanRight { get; }
+        Selectable UpNavigationTarget { get; }
+        Selectable DownNavigationTarget { get; }
+        Selectable LeftNavigationTarget { get; }
+        Selectable RightNavigationTarget { get; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,14 @@ namespace MornLib
     internal sealed class MornUGUIColorModule : MornUGUIModuleBase
     {
         [SerializeField] private Image _image;
-        [SerializeField, ShowIf(nameof(HasImage)), Label("選択中")] private Color _focusedColor = Color.white;
-        [SerializeField, ShowIf(nameof(HasImage)), Label("非選択中")] private Color _unfocusedColor = Color.gray;
-        [SerializeField, ShowIf(nameof(HasImage)), Label("決定不可_選択中")] private Color _focusedColor2 = Color.white;
-        [SerializeField, ShowIf(nameof(HasImage)), Label("決定不可_非選択中")] private Color _unfocusedColor2 = Color.gray;
+        [SerializeField] private TMP_Text _text;
+        [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor = Color.white;
+        [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor = Color.gray;
+        [SerializeField, ShowIf(nameof(HasAny))] private Color _focusedColor2 = Color.white;
+        [SerializeField, ShowIf(nameof(HasAny))] private Color _unfocusedColor2 = Color.gray;
         private bool _isFocused;
         private IMornUGUIInteractable _parent;
-        private bool HasImage => _image != null;
+        private bool HasAny => _image != null || _text != null;
 
         public void Initialize(IMornUGUIInteractable parent)
         {
@@ -33,9 +35,11 @@ namespace MornLib
 
         public override void Update()
         {
-            if (_image == null) return;
-            if (_isFocused) _image.color = _parent.IsActive ? _focusedColor : _focusedColor2;
-            else _image.color = _parent.IsActive ? _unfocusedColor : _unfocusedColor2;
+            Color color;
+            if (_isFocused) color = _parent.IsLocked ? _focusedColor2 : _focusedColor;
+            else color = _parent.IsLocked ? _unfocusedColor2 : _unfocusedColor;
+            if (_image != null) _image.color = color;
+            if (_text != null) _text.color = color;
         }
 
         public override void OnSelect()

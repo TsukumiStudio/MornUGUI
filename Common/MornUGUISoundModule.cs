@@ -6,48 +6,41 @@ namespace MornLib
     [Serializable]
     internal sealed class MornUGUISoundModule : MornUGUIModuleBase
     {
-        [SerializeField] private bool _ignoreCursor;
-        [SerializeField] private bool _ignoreSubmit;
-        [SerializeField] private bool _ignoreCancel;
+        [SerializeField] private bool _isIgnoreOnCursor;
+        [SerializeField] private bool _isIgnoreOnSubmit;
+        [SerializeField] private bool _isIgnoreOnCancel;
         [SerializeField] private AudioClip _overrideCursorClip;
         [SerializeField] private AudioClip _overrideSubmitClip;
         [SerializeField] private AudioClip _overrideCancelClip;
-        private IMornUGUISound _sound;
+        private IMornUGUIInteractable _interactable;
 
-        public void Initialize(IMornUGUISound sound)
+        public void Initialize(IMornUGUIInteractable sound)
         {
-            _sound = sound;
+            _interactable = sound;
         }
 
         public override void OnSelect()
         {
-            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
-            {
-                return;
-            }
-
+            if (_isIgnoreOnCursor) return;
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
 
         public override void OnSubmit()
         {
-            if ((_ignoreSubmit && !_sound.IsNegative) || (_ignoreCancel && _sound.IsNegative))
-            {
-                return;
-            }
-
             AudioClip clip;
-            if (_sound.IsNegative)
+            if (_interactable.IsNegative || _interactable.IsLocked)
             {
+                if (_isIgnoreOnCancel) return;
                 clip = _overrideCancelClip ? _overrideCancelClip : MornUGUIGlobal.I.ButtonCancelClip;
             }
             else
             {
+                if (_isIgnoreOnSubmit) return;
                 clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
             }
 
-            MornUGUIService.I.PlayOneShot(clip);
+            clip.PlayOneShotOnMornUGUI();
         }
     }
 }

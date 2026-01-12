@@ -1,13 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MornLib
 {
     [AddComponentMenu("")]
-    public class MornUGUIService : MornGlobalMonoBase<MornUGUIService>
+    internal class MornUGUIService : MornGlobalMonoBase<MornUGUIService>
     {
         protected override string ModuleName => "MornUGUIService";
         private AudioSource _seSource;
-        public bool IsBlocking { get; private set; }
+        private readonly List<string> _soundBlockFactors = new();
 
         protected override void OnInitialized()
         {
@@ -17,19 +18,19 @@ namespace MornLib
             _seSource.outputAudioMixerGroup = MornUGUIGlobal.I.SeMixerGroup;
         }
 
-        public void BlockOn()
+        public void AddSoundBlockFactor(string factor)
         {
-            IsBlocking = true;
+            _soundBlockFactors.Add(factor);
         }
 
-        public void BlockOff()
+        public void RemoveSoundBlockFactor(string factor)
         {
-            IsBlocking = false;
+            _soundBlockFactors.Remove(factor);
         }
 
         public void PlayOneShot(AudioClip clip)
         {
-            if (_seSource != null && clip != null && Application.isFocused)
+            if (_seSource != null && clip != null && Application.isFocused && _soundBlockFactors.Count == 0)
             {
                 _seSource.MornPlayOneShot(clip);
             }
