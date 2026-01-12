@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using MornEditor;
 using TMPro;
 using UnityEngine;
 
@@ -19,7 +18,7 @@ namespace MornLib
         [SerializeField] public TMP_FontAsset Font;
         [SerializeField, Label("廃止予定")] private Material[] Materials;
         [SerializeField] private List<MaterialSet> _materialSets;
-        
+
         public Material GetMaterial(MornUGUIMaterialType materialType)
         {
             var materialSet = _materialSets.Find(set => set.MaterialType == materialType);
@@ -27,13 +26,13 @@ namespace MornLib
             {
                 return materialSet.Material;
             }
-            
+
             if (Materials != null && Materials.Length > 0 && materialType.Index < Materials.Length)
             {
                 return Materials[materialType.Index];
             }
-            
-            MornUGUIGlobal.LogError("Materialが見つかりません: " + materialType);
+
+            MornUGUIGlobal.Logger.LogError("Materialが見つかりません: " + materialType);
             return null;
         }
     }

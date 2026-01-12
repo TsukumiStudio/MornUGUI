@@ -1,4 +1,3 @@
-using MornEditor;
 using TMPro;
 using UnityEngine;
 
@@ -60,7 +59,7 @@ namespace MornLib
                 {
                     _text.font = FontSettings.Font;
                     _text.fontMaterial = FontSettings.GetMaterial(MaterialType);
-                    MornUGUIGlobal.Log("Font/Material Adjusted");
+                    MornUGUIGlobal.Logger.Log("Font/Material Adjusted");
                     MornUGUIGlobal.SetDirty(_text);
                 }
             }
@@ -70,22 +69,16 @@ namespace MornLib
                 var autoSizeChanged = _text.enableAutoSizing == false;
                 var maxFontSizeChanged = !Mathf.Approximately(_text.fontSizeMax, SizeSettings.FontSize);
                 var minFontSizeChanged = !Mathf.Approximately(_text.fontSizeMin, 0);
-                var characterSpacingChanged = !Mathf.Approximately(
-                    _text.characterSpacing,
-                    SizeSettings.CharacterSpacing);
+                var characterSpacingChanged = !Mathf.Approximately(_text.characterSpacing, SizeSettings.CharacterSpacing);
                 var lineSpacingChanged = !Mathf.Approximately(_text.lineSpacing, SizeSettings.LineSpacing);
-                if (autoSizeChanged
-                    || maxFontSizeChanged
-                    || minFontSizeChanged
-                    || characterSpacingChanged
-                    || lineSpacingChanged)
+                if (autoSizeChanged || maxFontSizeChanged || minFontSizeChanged || characterSpacingChanged || lineSpacingChanged)
                 {
                     _text.enableAutoSizing = true;
                     _text.fontSizeMax = SizeSettings.FontSize;
                     _text.fontSizeMin = 0;
                     _text.characterSpacing = SizeSettings.CharacterSpacing;
                     _text.lineSpacing = SizeSettings.LineSpacing;
-                    MornUGUIGlobal.Log("FontSize Adjusted");
+                    MornUGUIGlobal.Logger.Log("FontSize Adjusted");
                     MornUGUIGlobal.SetDirty(_text);
                 }
             }

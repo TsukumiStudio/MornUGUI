@@ -66,7 +66,7 @@ namespace MornLib
                 Text.characterSpacing = SizeSettings.CharacterSpacing;
                 Text.lineSpacing = SizeSettings.LineSpacing;
                 Text.fontMaterial = FontSettings.GetMaterial(MaterialType);
-                MornUGUIGlobal.Log("Text Adjusted");
+                MornUGUIGlobal.Logger.Log("Text Adjusted");
                 MornUGUIGlobal.SetDirty(Text);
             }
         }

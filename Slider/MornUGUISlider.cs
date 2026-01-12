@@ -4,7 +4,6 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using VContainer;
 
 namespace MornLib
 {
@@ -24,8 +23,6 @@ namespace MornLib
         [SerializeField] private MornUGUISliderConvertPointerToSelectModule _convertPointerToSelectModule;
         [SerializeField] private MornUGUISliderNavigationModule _navigationModule;
         [SerializeField] private MornUGUISliderSoundModule _soundModule;
-        [Inject] private MornUGUIService _uguiCtrl; 
-        public MornUGUIService UGUICtrl => _uguiCtrl;
         public bool IsInteractable { get; set; }
         public Slider.Direction Direction => _slider.direction;
         public float Value => _slider.value;
@@ -51,9 +48,7 @@ namespace MornLib
 
         private void Awake()
         {
-            _slider.OnValueChangedAsObservable()
-                   .Subscribe(_ => Execute((module, parent) => module.OnValueChanged(parent)))
-                   .AddTo(this);
+            _slider.OnValueChangedAsObservable().Subscribe(_ => Execute((module, parent) => module.OnValueChanged(parent))).AddTo(this);
             Execute((module, parent) => module.Awake(parent));
         }
 

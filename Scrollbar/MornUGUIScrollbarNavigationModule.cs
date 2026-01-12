@@ -76,7 +76,7 @@ namespace MornLib
                 var canDown = toDown && atDown;
                 if ((canUp || canDown) && Mathf.Approximately(parent.Value, _lastValue))
                 {
-                    MornUGUIGlobal.LogWarning($"canUp: {canUp}, canDown: {canDown} and _lastValue: {_lastValue}");
+                    MornUGUIGlobal.Logger.LogWarning($"canUp: {canUp}, canDown: {canDown} and _lastValue: {_lastValue}");
                     var nextSelectable = canUp ? _up : _down;
                     EventSystem.current.SetSelectedGameObject(nextSelectable.gameObject);
                 }

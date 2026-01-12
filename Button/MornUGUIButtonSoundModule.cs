@@ -15,13 +15,13 @@ namespace MornLib
 
         public override void OnSelect(MornUGUIButton parent)
         {
-            if (_ignoreCursor || parent.UGUICtrl.IsBlocking)
+            if (_ignoreCursor || MornUGUIService.I.IsBlocking)
             {
                 return;
             }
 
             var clip = _overrideCursorClip ? _overrideCursorClip : MornUGUIGlobal.I.ButtonCursorClip;
-            parent.UGUICtrl.PlayOneShot(clip);
+            MornUGUIService.I.PlayOneShot(clip);
         }
 
         public override void OnSubmit(MornUGUIButton parent)
@@ -41,7 +41,7 @@ namespace MornLib
                 clip = _overrideSubmitClip ? _overrideSubmitClip : MornUGUIGlobal.I.ButtonSubmitClip;
             }
 
-            parent.UGUICtrl.PlayOneShot(clip);
+            MornUGUIService.I.PlayOneShot(clip);
         }
     }
 }

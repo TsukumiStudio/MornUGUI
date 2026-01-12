@@ -1,13 +1,21 @@
-using System;
 using UnityEngine;
 
 namespace MornLib
 {
-    [Serializable]
-    public class MornUGUIService
+    [AddComponentMenu("")]
+    public class MornUGUIService : MornGlobalMonoBase<MornUGUIService>
     {
-        [SerializeField] private AudioSource _seSource;
+        protected override string ModuleName => "MornUGUIService";
+        private AudioSource _seSource;
         public bool IsBlocking { get; private set; }
+
+        protected override void OnInitialized()
+        {
+            _seSource = gameObject.AddComponent<AudioSource>();
+            _seSource.playOnAwake = false;
+            _seSource.loop = false;
+            _seSource.outputAudioMixerGroup = MornUGUIGlobal.I.SeMixerGroup;
+        }
 
         public void BlockOn()
         {
@@ -18,7 +26,7 @@ namespace MornLib
         {
             IsBlocking = false;
         }
-        
+
         public void PlayOneShot(AudioClip clip)
         {
             if (_seSource != null && clip != null && Application.isFocused)

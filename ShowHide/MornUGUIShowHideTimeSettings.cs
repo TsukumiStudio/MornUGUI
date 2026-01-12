@@ -1,4 +1,3 @@
-using MornEase;
 using UnityEngine;
 
 namespace MornLib
