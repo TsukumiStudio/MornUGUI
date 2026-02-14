@@ -9,11 +9,11 @@ namespace MornLib
         public bool IsLocked;
         public bool IsNegative;
         [Header("Modules")]
-        [SerializeField] private MornUGUIActiveModule _activeModule;
-        [SerializeField] private MornUGUIColorModule _colorModule;
-        [SerializeField] private MornUGUIPointerModule _pointerModule;
-        [SerializeField] private MornUGUIScaleModule _scalerModule;
-        [SerializeField] private MornUGUISoundModule _soundModule;
+        [SerializeField] private MornUGUIActiveModule _activeModule = new();
+        [SerializeField] private MornUGUIColorModule _colorModule = new();
+        [SerializeField] private MornUGUIPointerModule _pointerModule = new();
+        [SerializeField] private MornUGUIScaleModule _scalerModule = new();
+        [SerializeField] private MornUGUISoundModule _soundModule = new();
         private List<MornUGUIModuleBase> _module;
         bool IMornUGUIInteractable.IsLocked => IsLocked;
         bool IMornUGUIInteractable.IsNegative => IsNegative;
