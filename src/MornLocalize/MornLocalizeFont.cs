@@ -11,6 +11,7 @@ namespace MornLib
     {
         [SerializeField, ReadOnly] private MornUGUITextSetter _setter;
         [SerializeField] private MornLocalizeFontSettings _settings;
+        private SingleAssignmentDisposable _languageSubscription;
         public MornLocalizeFontSettings Settings
         {
             get => _settings;
@@ -21,7 +22,12 @@ namespace MornLib
         {
             if (Application.isPlaying)
             {
-                MornLocalizeCore.OnLanguageChanged.Subscribe(Adjust).AddTo(this);
+                if (_languageSubscription == null || _languageSubscription.IsDisposed)
+                {
+                    _languageSubscription = new SingleAssignmentDisposable();
+                    _languageSubscription.Disposable = MornLocalizeCore.OnLanguageChanged.Subscribe(Adjust);
+                    _languageSubscription.AddTo(this);
+                }
                 Adjust(MornLocalizeCore.CurrentLanguage);
             }
         }
