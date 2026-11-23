@@ -7,6 +7,7 @@ namespace MornLib
     internal sealed class MornUGUIActiveOnUnFocus : MornUGUIMonoBase
     {
         private MonoBehaviour _owner;
+        private bool _isApplyingFocus;
 
         public override void Initialize(MonoBehaviour owner)
         {
@@ -17,7 +18,8 @@ namespace MornLib
 
         private void OnEnable()
         {
-            if (!Application.isPlaying) return;
+            // OnDeselect 中は EventSystem がまだ自分の持ち主を選択中と返すので、ここで同期すると表示し直した直後に消えてしまう
+            if (!Application.isPlaying || _isApplyingFocus) return;
             SyncActive();
         }
 
@@ -42,7 +44,9 @@ namespace MornLib
         public override void OnDeselect()
         {
             if (!Application.isPlaying) return;
+            _isApplyingFocus = true;
             gameObject.SetActive(true);
+            _isApplyingFocus = false;
         }
     }
 }
